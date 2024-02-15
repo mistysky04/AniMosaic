@@ -23,13 +23,13 @@ class ShowTest {
     }
 
     @Test
-    void testSingleAddComments() {
+    void testAddCommentsSingle() {
         testShow.addComments("Best show I've ever seen! Killua is the best character.");
         assertEquals("Best show I've ever seen! Killua is the best character.", testShow.getComments());
     }
 
     @Test
-    void testMultipleComments() {
+    void testAddCommentsMultiple() {
         testShow.addComments("Hisoka is my favourite character.");
         testShow.addComments("The plot is really good!");
         assertEquals("The plot is really good!", testShow.getComments());
@@ -45,7 +45,7 @@ class ShowTest {
     @Test
     void testToString() {
         testShow.addComments("Best show ever!");
-        assertTrue(testShow.toString().contains("name = HunterxHunter, genre = shounen, ranking = 5, current episode = " +
-             "148/148, comments = Best show ever!"));
+        assertTrue(testShow.toString().contains("[ name = HunterxHunter, genre = shounen, ranking = 5,  " +
+                "current episode = 148/148, comments = Best show ever! ]"));
     }
 }

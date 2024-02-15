@@ -39,41 +39,38 @@ public class Library {
     public void removeFromList(Show show) {
         for (List<Show> list  : Arrays.asList(completed, watching, planned, dropped)) {
             for (Show newShow : list) {
-                if (newShow.getName() == show.getName()) {
+                if (newShow.getName().equals(show.getName())) {
                     list.remove(show);
+                    return;
                 }
             }
         }
     }
 
-    // contains SHOW
-    public boolean findShow(Show show) {
-        return ((completed.contains(show) || watching.contains(show) || planned.contains(show))
-                || (dropped.contains(show)));
+    public String findCategoryName(Show show) {
+        if (completed.contains(show)) {
+            return "completed";
+        } else if (watching.contains(show)) {
+            return "watching";
+        } else if (planned.contains(show)) {
+            return "planned";
+        } else if (dropped.contains(show)) {
+            return "dropped";
+        } else {
+            return null;
+        }
     }
 
-    // contains show NAME
+    // finds and returns show if in library, otherwise null
     public Show findShow(String showName) {
-        for (List<Show> list  : Arrays.asList(completed, watching, planned, dropped)) {
+        for (List<Show> list : Arrays.asList(completed, watching, planned, dropped)) {
             for (Show show : list) {
-                if (show.getName() == showName) {
+                if (show.getName().equals(showName)) {
                     return show;
                 }
             }
         }
         return null;
-    }
-
-
-
-    /*
-     * REQUIRES: Show must be in fromCategory
-     * MODIFIES: this
-     * EFFECTS: moves show between fromCategory to toCategory
-     */
-    public void moveBetweenList(Show show, ArrayList<Show> fromCategory, ArrayList<Show> toCategory) {
-        fromCategory.remove(show);
-        toCategory.add(show);
     }
 
     public ArrayList<Show> getCompleted() {

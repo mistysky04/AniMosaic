@@ -75,6 +75,6 @@ public class Show {
         String epRatio = Integer.toString(currentEp) + "/" + Integer.toString(totalEp);
         return "[ name = " + name + ", genre = " + genre
                 + ", ranking = " + ranking + ",  current episode = " + epRatio
-                + ", comments = " + comments + "]";
+                + ", comments = " + comments + " ]";
     }
 }
