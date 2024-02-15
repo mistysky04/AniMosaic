@@ -34,17 +34,18 @@ public class Library {
     /*
      * REQUIRES: category must be one of Library fields
      * MODIFIES: this
-     * EFFECTS: removes Show to given category list
+     * EFFECTS: removes Show to given category list, return null if not available
      */
-    public void removeFromList(Show show) {
+    public String removeFromList(Show show) {
         for (List<Show> list  : Arrays.asList(completed, watching, planned, dropped)) {
             for (Show newShow : list) {
                 if (newShow.getName().equals(show.getName())) {
                     list.remove(show);
-                    return;
+                    return "done";
                 }
             }
         }
+        return "That show is already not in your library";
     }
 
     public String findCategoryName(Show show) {

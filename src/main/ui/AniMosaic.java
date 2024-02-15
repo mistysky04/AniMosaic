@@ -146,11 +146,7 @@ public class AniMosaic {
 
         Show show = myLibrary.findShow(name);
 
-        if (show.equals(null)) {
-            System.out.println("That is currently non existent in your library.");
-        } else {
-            myLibrary.removeFromList(show);
-        }
+        System.out.println(myLibrary.removeFromList(show));
     }
 
     // MODIFIES: this

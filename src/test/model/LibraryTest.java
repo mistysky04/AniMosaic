@@ -88,6 +88,17 @@ class LibraryTest {
     }
 
     @Test
+    void testRemoveFromListShowNotFound() {
+        newLibrary.addToList(s1, "completed");
+        newLibrary.addToList(s3, "planned");
+        newLibrary.addToList(s2, "planned");
+
+        newLibrary.removeFromList(s4);
+
+        assertEquals(null, newLibrary.removeFromList(s4));
+    }
+
+    @Test
     void testFindCategoryNameReturnString() {
         newLibrary.addToList(s4, "completed");
         newLibrary.addToList(s1, "watching");
