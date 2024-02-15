@@ -1,6 +1,5 @@
 package model;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -95,7 +94,7 @@ class LibraryTest {
 
         newLibrary.removeFromList(s4);
 
-        assertEquals(null, newLibrary.removeFromList(s4));
+        assertEquals("That show is already not in your library", newLibrary.removeFromList(s4));
     }
 
     @Test
@@ -119,7 +118,7 @@ class LibraryTest {
         newLibrary.addToList(s2, "dropped");
 
         assertEquals("completed", newLibrary.findCategoryName(s4));
-        assertEquals(null, newLibrary.findCategoryName(s1));
+        assertNull(newLibrary.findCategoryName(s1));
         assertEquals("planned", newLibrary.findCategoryName(s3));
         assertEquals("dropped", newLibrary.findCategoryName(s2));
 
@@ -145,7 +144,7 @@ class LibraryTest {
         newLibrary.addToList(s2, "dropped");
 
         assertEquals(s4, newLibrary.findShow("Noragami"));
-        assertEquals(null, newLibrary.findShow("Naruto"));
+        assertNull(newLibrary.findShow("Naruto"));
         assertEquals(s3, newLibrary.findShow("Promised Neverland"));
         assertEquals(s2, newLibrary.findShow("Fruits Basket"));
     }
