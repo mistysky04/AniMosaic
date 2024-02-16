@@ -10,7 +10,7 @@ public class Show {
     private int totalEp; // Total episodes of show
 
     /*
-     * REQUIRES: showName and showGenre have a non-zero length
+     * REQUIRES: showName and showGenre have a non-zero length, ranking values between 0-10, totalEp >= currentEp
      * EFFECTS: name of show is set to showName; genre of show is set to setGenre
      *          ranking, currentEp and totalEp assigned respective inputs UNLESS none given
      *          otherwise set to 0
@@ -21,6 +21,36 @@ public class Show {
         this.ranking = ranking;
         this.currentEp = currentEp;
         this.totalEp = totalEp;
+    }
+
+    /*
+     * REQUIRES: comment.isEmpty() == false
+     * MODIFIES: this
+     * EFFECTS: updates comments of show
+     * each call will replace old comment
+     */
+    public String addComments(String comment) {
+        this.comments = comment;
+        return comments;
+    }
+
+    /*
+     * MODIFIES: this
+     * EFFECTS: deletes current comment section, leaving it empty
+     */
+    public void deleteComments() {
+        this.comments = "";
+    }
+
+    /*
+     * EFFECTS: returns a string representation of the show
+     */
+    @Override
+    public String toString() {
+        String epRatio = Integer.toString(currentEp) + "/" + Integer.toString(totalEp);
+        return "[ name: " + name + "\n\tgenre: " + genre
+                + "\n\tranking: " + ranking + "\n\tepisodes: " + epRatio
+                + "\n\tcomments: " + comments + " ]\n";
     }
 
     public String getGenre() {
@@ -45,36 +75,5 @@ public class Show {
 
     public int getTotalEp() {
         return totalEp;
-    }
-
-    /*
-     * REQUIRES: comment.isEmpty() == false
-     * MODIFIES: this
-     * EFFECTS: updates comments of show
-     * each call will replace old comment
-     */
-    public String addComments(String comment) {
-        this.comments = comment;
-        return comments;
-    }
-
-    /*
-     * REQUIRES: this.comments.isEmpty() == true
-     * MODIFIES: this
-     * EFFECTS: deletes current comment section, leaving it empty
-     */
-    public void deleteComments() {
-        this.comments = "";
-    }
-
-    /*
-     * EFFECTS: returns a string representation of the show
-     */
-    @Override
-    public String toString() {
-        String epRatio = Integer.toString(currentEp) + "/" + Integer.toString(totalEp);
-        return "[ name = " + name + ", genre = " + genre
-                + ", ranking = " + ranking + ",  current episode = " + epRatio
-                + ", comments = " + comments + " ]";
     }
 }

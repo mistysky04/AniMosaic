@@ -45,7 +45,12 @@ class ShowTest {
     @Test
     void testToString() {
         testShow.addComments("Best show ever!");
-        assertTrue(testShow.toString().contains("[ name = HunterxHunter, genre = shounen, ranking = 5,  " +
-                "current episode = 148/148, comments = Best show ever! ]"));
+//        assertTrue(testShow.toString().contains("[ name = HunterxHunter, genre = shounen, ranking = 5,  " +
+//                "current episode = 148/148, comments = Best show ever! ]"));
+        assertTrue(testShow.toString().contains("[ name: HunterxHunter\n" +
+                "\tgenre: shounen\n" +
+                "\tranking: 5\n" +
+                "\tepisodes: 148/148\n" +
+                "\tcomments: Best show ever! ]"));
     }
 }
