@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// Library has 4 categories for shows to be sorted into based on their watch status
+// Users can find shows in any of the library fields OR add/remove shows from each field
 public class Library {
     private ArrayList<Show> completed = new ArrayList<>();
     private ArrayList<Show> watching = new ArrayList<>();
@@ -48,6 +50,9 @@ public class Library {
         return "That show is already not in your library";
     }
 
+    /*
+     * EFFECTS: Returns category of given show, or returns null if show not found in any list;
+     */
     public String findCategoryName(Show show) {
         if (completed.contains(show)) {
             return "completed";
@@ -62,7 +67,9 @@ public class Library {
         }
     }
 
-    // finds and returns show if in library, otherwise null
+    /*
+     * EFFECTS: returns show if found in library, else returns null
+     */
     public Show findShow(String showName) {
         for (List<Show> list : Arrays.asList(completed, watching, planned, dropped)) {
             for (Show show : list) {

@@ -1,6 +1,7 @@
 package model;
 
 // Represents a single added show having a name, ranking, genre, total and current episode number, and comments
+// Can manipulate fields of show
 public class Show {
     private String name; // Show name
     private String genre; // Genre of show
@@ -12,8 +13,7 @@ public class Show {
     /*
      * REQUIRES: showName and showGenre have a non-zero length, ranking values between 0-10, totalEp >= currentEp
      * EFFECTS: name of show is set to showName; genre of show is set to setGenre
-     *          ranking, currentEp and totalEp assigned respective inputs UNLESS none given
-     *          otherwise set to 0
+     *          ranking, currentEp and totalEp assigned respective inputs
      */
     public Show(String showName, String showGenre, int ranking, int currentEp, int totalEp) {
         name = showName;
@@ -73,7 +73,12 @@ public class Show {
         return currentEp;
     }
 
+
     public int getTotalEp() {
         return totalEp;
+    }
+
+    public void setCurrentEp(int num) {
+        currentEp += num;
     }
 }

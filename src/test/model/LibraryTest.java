@@ -125,7 +125,7 @@ class LibraryTest {
     }
 
     @Test
-    void findShowReturnShow() {
+    void testFindShowReturnShow() {
         newLibrary.addToList(s4, "completed");
         newLibrary.addToList(s1, "watching");
         newLibrary.addToList(s3, "planned");
@@ -138,7 +138,7 @@ class LibraryTest {
     }
 
     @Test
-    void findShowReturnShowReturnNull() {
+    void testFindShowReturnShowReturnNull() {
         newLibrary.addToList(s4, "completed");
         newLibrary.addToList(s3, "planned");
         newLibrary.addToList(s2, "dropped");
@@ -148,6 +148,40 @@ class LibraryTest {
         assertEquals(s3, newLibrary.findShow("Promised Neverland"));
         assertEquals(s2, newLibrary.findShow("Fruits Basket"));
     }
+
+    @Test
+    void testGetCompleted() {
+        newLibrary.addToList(s1, "completed");
+        newLibrary.addToList(s2, "completed");
+        assertEquals(s1, newLibrary.getCompleted().get(0));
+        assertEquals(s2, newLibrary.getCompleted().get(1));
+    }
+
+    @Test
+    void testGetWatching() {
+        newLibrary.addToList(s1, "watching");
+        newLibrary.addToList(s2, "watching");
+        assertEquals(s1, newLibrary.getWatching().get(0));
+        assertEquals(s2, newLibrary.getWatching().get(1));
+    }
+
+    @Test
+    void testGetPlanned() {
+        newLibrary.addToList(s1, "planned");
+        newLibrary.addToList(s2, "planned");
+        assertEquals(s1, newLibrary.getPlanned().get(0));
+        assertEquals(s2, newLibrary.getPlanned().get(1));
+    }
+
+    @Test
+    void testGetDropped() {
+        newLibrary.addToList(s1, "dropped");
+        newLibrary.addToList(s2, "dropped");
+        assertEquals(s1, newLibrary.getDropped().get(0));
+        assertEquals(s2, newLibrary.getDropped().get(1));
+    }
+
+
 
 
 }
