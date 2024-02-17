@@ -12,6 +12,8 @@ public class Library {
     private ArrayList<Show> planned = new ArrayList<>();
     private ArrayList<Show> dropped = new ArrayList<>();
 
+    private ArrayList<String> allShows = new ArrayList<>();
+
     // EFFECTS: Create new instance of library with empty arrayLists
     public Library() {
     }
@@ -22,11 +24,11 @@ public class Library {
      * EFFECTS: adds Show to given category list
      */
     public void addToList(Show show, String category) {
-        if (category.equals("completed")) {
+        if (category.equalsIgnoreCase("completed")) {
             completed.add(show);
-        } else if (category.equals("watching")) {
+        } else if (category.equalsIgnoreCase("watching")) {
             watching.add(show);
-        } else if (category.equals("planned")) {
+        } else if (category.equalsIgnoreCase("planned")) {
             planned.add(show);
         } else {
             dropped.add(show);
@@ -41,7 +43,7 @@ public class Library {
     public String removeFromList(Show show) {
         for (List<Show> list  : Arrays.asList(completed, watching, planned, dropped)) {
             for (Show newShow : list) {
-                if (newShow.getName().equals(show.getName())) {
+                if (newShow.getName().equalsIgnoreCase(show.getName())) {
                     list.remove(show);
                     return "done";
                 }
@@ -73,7 +75,7 @@ public class Library {
     public Show findShow(String showName) {
         for (List<Show> list : Arrays.asList(completed, watching, planned, dropped)) {
             for (Show show : list) {
-                if (show.getName().equals(showName)) {
+                if (show.getName().equalsIgnoreCase(showName)) {
                     return show;
                 }
             }

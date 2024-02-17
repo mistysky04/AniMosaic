@@ -3,6 +3,7 @@ package ui;
 import model.Show;
 import model.Library;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -11,6 +12,8 @@ public class AniMosaic extends Thread {
     private Library myLibrary;
     private Scanner input;
     String categories = ("\ncompleted \nwatching \nplanned \ndropped \n");
+    ArrayList<String> genres = new ArrayList<>();
+    ArrayList<String> shows = new ArrayList<>();
 
     // EFFECTS: runs the AniMosaic application
     public AniMosaic() {
@@ -100,39 +103,47 @@ public class AniMosaic extends Thread {
 
         System.out.print("Genre: ");
         genre = input.next();
+        genres.add(genre);
 
+        // Loop to ensure rank between 0-10
         ranking = rankingCheck();
 
         System.out.print("Total episode number: ");
         totalEp = input.nextInt();
 
+        // Loop to ensure currentEp >= TotalEp
         currentEp = currentEpCheck(totalEp);
 
         Show newShow = new Show(name, genre, ranking, currentEp, totalEp);
 
-        addToCategory(newShow);
+        if (addToCategory(newShow) == false) {
+            return;
+        }
+        shows.add(name);
     }
 
     // MODIFIES: this
     // EFFECTS: adds or deletes comment from given show
     private void doComments() {
         System.out.println("Which show's comments would you like to edit?: ");
-        String name = input.next();
-        Show show = myLibrary.findShow(name);
+        System.out.println("Please select from the following: ");
+        System.out.println(shows);
 
-        if (show == null) {
-            System.out.println("\nThat show does not exist in your library!\n");
+        Show show = getShow();
+
+        if (checkShow(show) == false) {
+            return;
         }
 
         System.out.println("Would you like to 'add' or 'delete' a comment? ");
         String answer = input.next();
 
-        if (answer.equals("add")) {
+        if (answer.equalsIgnoreCase("add")) {
             System.out.println("Please type out your comment: ");
             String comment = input.next();
             show.addComments(comment);
             System.out.println("Comment successfully added.");
-        } else if (answer.equals("delete")) {
+        } else if (answer.equalsIgnoreCase("delete")) {
             show.deleteComments();
             System.out.println("Comments have been deleted.");
         } else {
@@ -144,7 +155,13 @@ public class AniMosaic extends Thread {
     // EFFECTS: deletes a show from the library
     private void doDeleteShow() {
         System.out.println("Which show would you like to delete?: ");
+        System.out.print("Please select from the following: ");
+        System.out.println(shows);
+
         Show show = getShow();
+        if (checkShow(show) == false) {
+            return;
+        }
 
         System.out.println(myLibrary.removeFromList(show));
     }
@@ -152,9 +169,15 @@ public class AniMosaic extends Thread {
     // MODIFIES: this
     // EFFECTS: moves show from one category to another
     private void doTransferShow() {
-        System.out.println("Which show would you like to transfer across your library?: ");
+        System.out.println("Which show would you like to transfer across your library?");
+        System.out.println("Select from one of the following: ");
+        System.out.println(shows);
 
         Show show = getShow();
+        if (checkShow(show) == false) {
+            return;
+        }
+
         String sourceName = myLibrary.findCategoryName(show);
 
         System.out.println(show.getName() + " is currently in the " + sourceName + " category.");
@@ -174,13 +197,12 @@ public class AniMosaic extends Thread {
 
     // EFFECTS: Displays given show in console if found, otherwise tells user show not in library
     private void doViewShow() {
-        System.out.println("Which show are you looking for?: ");
-        Show show = getShow();
+        System.out.println("Please select from one of the following: ");
+        System.out.println(shows);
 
-        if (show != null) {
-            System.out.println(show.toString());
-        } else {
-            System.out.println("That show does not exist in your library!");
+        Show show = getShow();
+        if (checkShow(show) == false) {
+            return;
         }
     }
 
@@ -209,7 +231,13 @@ public class AniMosaic extends Thread {
         int num;
 
         System.out.println("Which show would you like to update?: ");
+        System.out.print("Please select from the following: ");
+        System.out.println(shows);
+
         Show show = getShow();
+        if (checkShow(show) == false) {
+            return;
+        }
 
         System.out.println("How many episodes would you like to add?: ");
 
@@ -231,6 +259,17 @@ public class AniMosaic extends Thread {
         String name = input.next();
 
         return myLibrary.findShow(name);
+    }
+
+    // EFFECTS: returns true if show found in library, else false
+    private boolean checkShow(Show show) {
+        if (show != null) {
+            System.out.println(show.toString());
+            return true;
+        } else {
+            System.out.println("That show does not exist in your library!");
+            return false;
+        }
     }
 
     // EFFECTS: prompts user to continue giving current episode number until it satisfies condition
@@ -262,7 +301,7 @@ public class AniMosaic extends Thread {
     }
 
     // EFFECTS: prompts user to continue giving category of show until it matches one of the 4 options
-    private void addToCategory(Show newShow) {
+    private boolean addToCategory(Show newShow) {
         System.out.print("\nPlease type one of the following categories to add your show: ");
         System.out.print(categories);
         String category = input.next();
@@ -270,9 +309,13 @@ public class AniMosaic extends Thread {
         // Add to specified category if types correctly
         if (hasCategory) {
             myLibrary.addToList(newShow, category);
+            System.out.println(newShow.getName() + " has been successfully added!\n");
+            return true;
         } else {
             System.out.println("\nCannot add to nonexistent category...\n");
+            return false;
         }
-        System.out.println(newShow.getName() + " has been successfully added!\n");
     }
+
+
 }
