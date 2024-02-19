@@ -6,9 +6,9 @@ import model.Library;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+// CITATION: CPSC 210 Teller App
 // AniMosaic app
-public class AniMosaic extends Thread {
+public class AniMosaic {
     private Library myLibrary;
     private Scanner input;
     String categories = ("\ncompleted \nwatching \nplanned \ndropped \n");
@@ -126,7 +126,7 @@ public class AniMosaic extends Thread {
     // EFFECTS: adds or deletes comment from given show
     private void doComments() {
         System.out.println("Which show's comments would you like to edit?: ");
-        System.out.println("Please select from the following: ");
+        System.out.println("Please select from the following: \n");
         System.out.println(shows);
 
         Show show = getShow();
@@ -142,10 +142,10 @@ public class AniMosaic extends Thread {
             System.out.println("Please type out your comment: ");
             String comment = input.next();
             show.addComments(comment);
-            System.out.println("Comment successfully added.");
+            System.out.println("Comment successfully added. \n");
         } else if (answer.equalsIgnoreCase("delete")) {
             show.deleteComments();
-            System.out.println("Comments have been deleted.");
+            System.out.println("Comments have been deleted.\n");
         } else {
             System.out.println("That is not one of the options...\n");
         }
@@ -155,7 +155,7 @@ public class AniMosaic extends Thread {
     // EFFECTS: deletes a show from the library
     private void doDeleteShow() {
         System.out.println("Which show would you like to delete?: ");
-        System.out.print("Please select from the following: ");
+        System.out.print("Please select from the following: \n");
         System.out.println(shows);
 
         Show show = getShow();
@@ -170,7 +170,7 @@ public class AniMosaic extends Thread {
     // EFFECTS: moves show from one category to another
     private void doTransferShow() {
         System.out.println("Which show would you like to transfer across your library?");
-        System.out.println("Select from one of the following: ");
+        System.out.println("Select from one of the following: \n");
         System.out.println(shows);
 
         Show show = getShow();
@@ -180,14 +180,14 @@ public class AniMosaic extends Thread {
 
         String sourceName = myLibrary.findCategoryName(show);
 
-        System.out.println(show.getName() + " is currently in the " + sourceName + " category.");
+        System.out.println(show.getName() + " is currently in the " + sourceName + " category.\n");
         System.out.println("Which category would you like to move it to? Please select from the following:");
         System.out.println(categories);
 
         String destination = input.next();
 
         if (!categories.contains(destination)) {
-            System.out.println("That is not a valid category.");
+            System.out.println("That is not a valid category.\n");
         } else {
             myLibrary.removeFromList(show);
             myLibrary.addToList(show, destination);
@@ -197,7 +197,7 @@ public class AniMosaic extends Thread {
 
     // EFFECTS: Displays given show in console if found, otherwise tells user show not in library
     private void doViewShow() {
-        System.out.println("Please select from one of the following: ");
+        System.out.println("Please select from one of the following: \n");
         System.out.println(shows);
 
         Show show = getShow();
@@ -231,7 +231,7 @@ public class AniMosaic extends Thread {
         int num;
 
         System.out.println("Which show would you like to update?: ");
-        System.out.print("Please select from the following: ");
+        System.out.print("Please select from the following: \n");
         System.out.println(shows);
 
         Show show = getShow();
@@ -250,11 +250,11 @@ public class AniMosaic extends Thread {
         }
 
         show.setCurrentEp(num);
-        System.out.println("Show episodes have been updated!");
+        System.out.println("Show episodes have been updated!\n");
         System.out.println(show.toString());
     }
 
-    // EFFECTS: helper method to get show in library from given string
+    // EFFECTS: get show in library from given input
     private Show getShow() {
         String name = input.next();
 
@@ -267,7 +267,7 @@ public class AniMosaic extends Thread {
             System.out.println(show.toString());
             return true;
         } else {
-            System.out.println("That show does not exist in your library!");
+            System.out.println("That show does not exist in your library!\n");
             return false;
         }
     }

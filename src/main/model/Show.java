@@ -6,7 +6,7 @@ public class Show {
     private String name; // Show name
     private String genre; // Genre of show
     private String comments; // User comments of show
-    private int ranking; // Show ranking from 0-5
+    private int ranking; // Show ranking from 0-10
     private int currentEp; // Current episode of show user is on
     private int totalEp; // Total episodes of show
 
@@ -53,6 +53,7 @@ public class Show {
                 + "\n\tcomments: " + comments + " ]\n";
     }
 
+    // Setters & Getters
     public String getGenre() {
         return genre;
     }
@@ -72,7 +73,6 @@ public class Show {
     public int getCurrentEp() {
         return currentEp;
     }
-
 
     public int getTotalEp() {
         return totalEp;

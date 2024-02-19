@@ -12,8 +12,6 @@ public class Library {
     private ArrayList<Show> planned = new ArrayList<>();
     private ArrayList<Show> dropped = new ArrayList<>();
 
-    private ArrayList<String> allShows = new ArrayList<>();
-
     // EFFECTS: Create new instance of library with empty arrayLists
     public Library() {
     }
@@ -36,9 +34,8 @@ public class Library {
     }
 
     /*
-     * REQUIRES: category must be one of Library fields
      * MODIFIES: this
-     * EFFECTS: removes Show to given category list, return null if not available
+     * EFFECTS: removes Show from its specific category, or prompts user that show is not in library
      */
     public String removeFromList(Show show) {
         for (List<Show> list  : Arrays.asList(completed, watching, planned, dropped)) {
@@ -83,6 +80,7 @@ public class Library {
         return null;
     }
 
+    // Setters & Getters
     public ArrayList<Show> getCompleted() {
         return completed;
     }
