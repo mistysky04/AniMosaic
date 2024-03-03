@@ -2,6 +2,10 @@ package model;
 
 import exceptions.NonSpecifiedCategoryException;
 import exceptions.ShowNonexistentException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import persistence.Writable;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +14,7 @@ import java.util.regex.Pattern;
 
 // Library has 4 categories for shows to be sorted into based on their watch status
 // Users can find shows in any of the library fields OR add/remove shows from each field
-public class Library {
+public class Library implements Writable {
     private ArrayList<Show> completed = new ArrayList<>();
     private ArrayList<Show> watching = new ArrayList<>();
     private ArrayList<Show> planned = new ArrayList<>();
@@ -105,5 +109,30 @@ public class Library {
 
     public ArrayList<Show> getDropped() {
         return dropped;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        private JSONArray showsToJson() {
+            JSONArray jsonArray = new JSONArray();
+
+            for (Show show : completed) {
+                jsonArray.put(show.toJson());
+            }
+
+            for (Show show : watching) {
+                jsonArray.put(show.toJson());
+            }
+
+            for (Show show : planned) {
+                jsonArray.put(show.toJson());
+            }
+
+            for (Show show : dropped) {
+                jsonArray.put(show.toJson());
+            }
+
+            return jsonArray;
+        }
     }
 }

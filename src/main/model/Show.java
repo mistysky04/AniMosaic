@@ -3,10 +3,12 @@ package model;
 import exceptions.NonSpecifiedCategoryException;
 import exceptions.NonZeroNameLengthException;
 import exceptions.NumIsOutOfRangeException;
+import org.json.JSONObject;
+import persistence.Writable;
 
 // Represents a single added show having a name, ranking, genre, total and current episode number, and comments
 // Can manipulate fields of show
-public class Show {
+public class Show implements Writable {
     private String name; // Show name
     private String genre; // Genre of show
     private String comments; // User comments of show
@@ -87,5 +89,17 @@ public class Show {
 
     public void setCurrentEp(int num) {
         currentEp += num;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("genre", genre);
+        json.put("comments", comments);
+        json.put("ranking", ranking);
+        json.put("currentEp", currentEp);
+        json.put("totalEp", totalEp);
+        return json;
     }
 }
