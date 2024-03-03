@@ -1,9 +1,5 @@
 package model;
 
-import exceptions.NonSpecifiedCategoryException;
-import exceptions.NonZeroNameLengthException;
-import exceptions.NumIsOutOfRangeException;
-
 // Represents a single added show having a name, ranking, genre, total and current episode number, and comments
 // Can manipulate fields of show
 public class Show {
@@ -14,9 +10,8 @@ public class Show {
     private int currentEp; // Current episode of show user is on
     private int totalEp; // Total episodes of show
 
-    private final String nameLengthException = "Must provide answers at least 1 character long. Please try again: ";
-
     /*
+     * REQUIRES: showName and showGenre have a non-zero length, ranking values between 0-10, totalEp >= currentEp
      * EFFECTS: name of show is set to showName; genre of show is set to setGenre
      *          ranking, currentEp and totalEp assigned respective inputs
      */
@@ -29,14 +24,12 @@ public class Show {
     }
 
     /*
+     * REQUIRES: comment.isEmpty() == false
      * MODIFIES: this
      * EFFECTS: updates comments of show
      * each call will replace old comment
      */
-    public String addComments(String comment) throws NonZeroNameLengthException {
-        if (comment.length() == 0) {
-            throw new NonZeroNameLengthException(nameLengthException);
-        }
+    public String addComments(String comment) {
         this.comments = comment;
         return comments;
     }
