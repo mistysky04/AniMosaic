@@ -28,4 +28,7 @@ project for me!
 - As a user, I want to be able to move shows between the 4 watch categories as they're seen
 - As a user, I want to be able to delete shows from either category if I'm no longer interested in them or I stop 
 watching
+- As a user, when I select the quit option from the application menu, I want to be reminded to save my current 
+  library to file and have the option to do so or not.
+  As a user, when I start the application, I want to be given the option to load my current library from file.
 - As a user, I want the option to add pictures of inputted shows to use as the cover photo in mosaic mode
