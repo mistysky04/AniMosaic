@@ -1,0 +1,14 @@
+{
+    "dropped": [],
+    "completed": [],
+    "planned": [],
+    "title": "myLibrary",
+    "watching": [{
+        "totalEp": 100,
+        "comments": "Kakashi is so sexy",
+        "currentEp": 10,
+        "name": "Naruto",
+        "genre": "Shounen",
+        "ranking": 10
+    }]
+}

@@ -1,0 +1,35 @@
+{
+  "dropped": [{
+    "totalEp": 200,
+    "comments": "I hate this show",
+    "currentEp": 15,
+    "name": "Hetalia",
+    "genre": "personified countries",
+    "ranking": 0
+  }],
+  "completed": [{
+    "totalEp": 100,
+    "comments": "Kakashi is so sexy",
+    "currentEp": 100,
+    "name": "Naruto",
+    "genre": "Shounen",
+    "ranking": 10
+  }],
+  "planned": [{
+    "totalEp": 90,
+    "comments": "",
+    "currentEp": 0,
+    "name": "Attack On Titan",
+    "genre": "Shounen",
+    "ranking": 0
+  }],
+  "title": "My Library",
+  "watching": [{
+    "totalEp": 25,
+    "comments": "I love you Yato <3",
+    "currentEp": 10,
+    "name": "Noragami",
+    "genre": "Shounen",
+    "ranking": 9
+  }]
+}

@@ -13,14 +13,18 @@ import java.util.List;
 // Users can find shows in any of the library fields OR add/remove shows from each field
 public class Library implements Writable {
     private String title;
-    private ArrayList<Show> completed = new ArrayList<>();
-    private ArrayList<Show> watching = new ArrayList<>();
-    private ArrayList<Show> planned = new ArrayList<>();
-    private ArrayList<Show> dropped = new ArrayList<>();
+    private ArrayList<Show> completed;
+    private ArrayList<Show> watching;
+    private ArrayList<Show> planned;
+    private ArrayList<Show> dropped;
 
     // EFFECTS: Create new instance of library with empty arrayLists and title declared
     public Library(String title) {
         this.title = title;
+        completed = new ArrayList<>();
+        watching = new ArrayList<>();
+        planned = new ArrayList<>();
+        dropped = new ArrayList<>();
     }
 
     /*

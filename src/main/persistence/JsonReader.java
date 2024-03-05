@@ -44,6 +44,9 @@ public class JsonReader {
         String title = jsonObject.getString("title");
         Library lb = new Library(title);
         addCompleted(lb, jsonObject);
+        addWatching(lb, jsonObject);
+        addPlanned(lb, jsonObject);
+        addDropped(lb, jsonObject);
         return lb;
     }
 
@@ -52,8 +55,8 @@ public class JsonReader {
     private void addCompleted(Library lb, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("completed");
         for (Object json : jsonArray) {
-            JSONObject nextThingy = (JSONObject) json;
-            addShowCompleted(lb, nextThingy);
+            JSONObject nextShow = (JSONObject) json;
+            addShowCompleted(lb, nextShow);
         }
     }
 
