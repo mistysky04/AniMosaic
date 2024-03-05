@@ -2,7 +2,6 @@ package persistence;
 
 import model.Library;
 import model.Show;
-import model.WorkRoom;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,12 +20,12 @@ public class JsonReader {
         this.source = source;
     }
 
-    // EFFECTS: reads workroom from file and returns it;
+    // EFFECTS: reads Library from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public WorkRoom read() throws IOException {
+    public Library read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseWorkRoom(jsonObject);
+        return parseLibrary(jsonObject);
     }
 
     // EFFECTS: reads source file as string and returns it
@@ -40,30 +39,103 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses workroom from JSON object and returns it
-    private WorkRoom parseWorkRoom(JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
-        WorkRoom wr = new WorkRoom(name);
-        addThingies(wr, jsonObject);
-        return wr;
+    // EFFECTS: parses library from JSON object and returns it
+    private Library parseLibrary(JSONObject jsonObject) {
+        String title = jsonObject.getString("title");
+        Library lb = new Library(title);
+        addCompleted(lb, jsonObject);
+        return lb;
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingies from JSON object and adds them to workroom
-    private void addThingies(WorkRoom wr, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("thingies");
+    // MODIFIES: lb
+    // EFFECTS: parses completed from JSON object and adds them to Library
+    private void addCompleted(Library lb, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("completed");
         for (Object json : jsonArray) {
             JSONObject nextThingy = (JSONObject) json;
-            addThingy(wr, nextThingy);
+            addShowCompleted(lb, nextThingy);
         }
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingy from JSON object and adds it to workroom
-    private void addThingy(WorkRoom wr, JSONObject jsonObject) {
+    // MODIFIES: lb
+    // EFFECTS: parses watching from JSON object and adds them to Library
+    private void addWatching(Library lb, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("watching");
+        for (Object json : jsonArray) {
+            JSONObject nextThingy = (JSONObject) json;
+            addShowWatching(lb, nextThingy);
+        }
+    }
+
+    // MODIFIES: lb
+    // EFFECTS: parses planned from JSON object and adds them to Library
+    private void addPlanned(Library lb, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("planned");
+        for (Object json : jsonArray) {
+            JSONObject nextThingy = (JSONObject) json;
+            addShowPlanned(lb, nextThingy);
+        }
+    }
+
+    // MODIFIES: lb
+    // EFFECTS: parses dropped from JSON object and adds them to Library
+    private void addDropped(Library lb, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("dropped");
+        for (Object json : jsonArray) {
+            JSONObject nextThingy = (JSONObject) json;
+            addShowDropped(lb, nextThingy);
+        }
+    }
+
+    // MODIFIES: lb
+    // EFFECTS: parses show from JSON object and adds it to Completed
+    private void addShowCompleted(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
-        Category category = Category.valueOf(jsonObject.getString("category"));
-        Thingy thingy = new Thingy(name, category);
-        wr.addThingy(thingy);
+        String genre = jsonObject.getString("genre");
+        int ranking = jsonObject.getInt("ranking");
+        int totalEp = jsonObject.getInt("totalEp");
+        int currentEp = jsonObject.getInt("currentEp");
+
+        Show show = new Show(name, genre, ranking, totalEp, currentEp);
+        lb.addToList(show, "completed");
+    }
+
+    // MODIFIES: lb
+    // EFFECTS: parses show from JSON object and adds it to Completed
+    private void addShowWatching(Library lb, JSONObject jsonObject) {
+        String name = jsonObject.getString("name");
+        String genre = jsonObject.getString("genre");
+        int ranking = jsonObject.getInt("ranking");
+        int totalEp = jsonObject.getInt("totalEp");
+        int currentEp = jsonObject.getInt("currentEp");
+
+        Show show = new Show(name, genre, ranking, totalEp, currentEp);
+        lb.addToList(show, "watching");
+    }
+
+    // MODIFIES: lb
+    // EFFECTS: parses show from JSON object and adds it to planned
+    private void addShowPlanned(Library lb, JSONObject jsonObject) {
+        String name = jsonObject.getString("name");
+        String genre = jsonObject.getString("genre");
+        int ranking = jsonObject.getInt("ranking");
+        int totalEp = jsonObject.getInt("totalEp");
+        int currentEp = jsonObject.getInt("currentEp");
+
+        Show show = new Show(name, genre, ranking, totalEp, currentEp);
+        lb.addToList(show, "planned");
+    }
+
+    // MODIFIES: lb
+    // EFFECTS: parses show from JSON object and adds it to dropped
+    private void addShowDropped(Library lb, JSONObject jsonObject) {
+        String name = jsonObject.getString("name");
+        String genre = jsonObject.getString("genre");
+        int ranking = jsonObject.getInt("ranking");
+        int totalEp = jsonObject.getInt("totalEp");
+        int currentEp = jsonObject.getInt("currentEp");
+
+        Show show = new Show(name, genre, ranking, totalEp, currentEp);
+        lb.addToList(show, "dropped");
     }
 }

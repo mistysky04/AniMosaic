@@ -1,11 +1,11 @@
 package persistence;
-import model.WorkRoom;
+import model.Library;
 import org.json.JSONObject;
 
 
 import java.io.*;
 
-// Represents a writer that writes JSON representation of workroom to file
+// Represents a writer that writes JSON representation of library to file
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;
@@ -25,8 +25,8 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of workroom to file
-    public void write(WorkRoom wr) {
-        JSONObject json = wr.toJson();
+    public void write(Library lb) {
+        JSONObject json = lb.toJson();
         saveToFile(json.toString(TAB));
     }
 
