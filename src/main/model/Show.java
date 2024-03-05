@@ -19,10 +19,10 @@ public class Show implements Writable {
      *          ranking, currentEp and totalEp assigned respective inputs
      *          Comments begins as empty String
      */
-    public Show(String showName, String showGenre, int ranking, int currentEp, int totalEp) {
+    public Show(String showName, String showGenre, String comments, int ranking, int currentEp, int totalEp) {
         name = showName;
         genre = showGenre;
-        comments = "";
+        this.comments = comments;
         this.ranking = ranking;
         this.currentEp = currentEp;
         this.totalEp = totalEp;

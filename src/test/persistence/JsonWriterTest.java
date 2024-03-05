@@ -22,10 +22,10 @@ class JsonWriterTest extends JsonTest {
 
     @BeforeEach
     void runBefore() {
-        s1 = new Show("Naruto", "shounen", 4,230, 500);
-        s2 = new Show("Fruits Basket", "shoujo", 5, 30, 63);
-        s3 = new Show("Promised Neverland", "thriller",4, 0, 25);
-        s4 = new Show("Noragami", "shounen", 5, 25, 25);
+        s1 = new Show("Naruto", "shounen", "", 4,230, 500);
+        s2 = new Show("Fruits Basket", "shoujo", "",5, 30, 63);
+        s3 = new Show("Promised Neverland", "thriller", "", 4, 0, 25);
+        s4 = new Show("Noragami", "shounen", "", 5, 25, 25);
     }
 
     @Test

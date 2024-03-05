@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import org.json.*;
 
-// Represents a reader that reads workroom from JSON data stored in file
+// Represents a reader that reads library from JSON data stored in file
 public class JsonReader {
     private String source;
 
@@ -95,11 +95,12 @@ public class JsonReader {
     private void addShowCompleted(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String genre = jsonObject.getString("genre");
+        String comments = jsonObject.getString("comments");
         int ranking = jsonObject.getInt("ranking");
         int totalEp = jsonObject.getInt("totalEp");
         int currentEp = jsonObject.getInt("currentEp");
 
-        Show show = new Show(name, genre, ranking, totalEp, currentEp);
+        Show show = new Show(name, genre, comments, ranking, totalEp, currentEp);
         lb.addToList(show, "completed");
     }
 
@@ -108,11 +109,12 @@ public class JsonReader {
     private void addShowWatching(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String genre = jsonObject.getString("genre");
+        String comments = jsonObject.getString("comments");
         int ranking = jsonObject.getInt("ranking");
         int totalEp = jsonObject.getInt("totalEp");
         int currentEp = jsonObject.getInt("currentEp");
 
-        Show show = new Show(name, genre, ranking, totalEp, currentEp);
+        Show show = new Show(name, genre, comments, ranking, totalEp, currentEp);
         lb.addToList(show, "watching");
     }
 
@@ -121,11 +123,12 @@ public class JsonReader {
     private void addShowPlanned(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String genre = jsonObject.getString("genre");
+        String comments = jsonObject.getString("comments");
         int ranking = jsonObject.getInt("ranking");
         int totalEp = jsonObject.getInt("totalEp");
         int currentEp = jsonObject.getInt("currentEp");
 
-        Show show = new Show(name, genre, ranking, totalEp, currentEp);
+        Show show = new Show(name, genre, comments, ranking, totalEp, currentEp);
         lb.addToList(show, "planned");
     }
 
@@ -134,11 +137,12 @@ public class JsonReader {
     private void addShowDropped(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String genre = jsonObject.getString("genre");
+        String comments = jsonObject.getString("comments");
         int ranking = jsonObject.getInt("ranking");
         int totalEp = jsonObject.getInt("totalEp");
         int currentEp = jsonObject.getInt("currentEp");
 
-        Show show = new Show(name, genre, ranking, totalEp, currentEp);
+        Show show = new Show(name, genre, comments, ranking, totalEp, currentEp);
         lb.addToList(show, "dropped");
     }
 }

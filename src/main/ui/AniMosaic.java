@@ -3,7 +3,10 @@ package ui;
 import model.Show;
 import model.Library;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -16,13 +19,11 @@ import java.io.IOException;
 public class AniMosaic {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    private static final String JSON_STORE = "./data/workroom.json";
+    private static final String JSON_STORE = "./data/library.json";
 
     private Library myLibrary;
     private Scanner input;
     String categories = ("\ncompleted \nwatching \nplanned \ndropped \n");
-    ArrayList<String> genres = new ArrayList<>();
-    ArrayList<String> shows = new ArrayList<>();
 
     // EFFECTS: runs the AniMosaic application
     public AniMosaic() throws FileNotFoundException {
@@ -39,8 +40,9 @@ public class AniMosaic {
         boolean keepGoing = true;
         String command = null;
         input = new Scanner(System.in);
+        input.useDelimiter("\n");
 
-        init();
+//        init();
 
         while (keepGoing) {
             displayMenu();
@@ -83,13 +85,13 @@ public class AniMosaic {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: initializes library, no shows currently added
-    private void init() {
-        myLibrary = new Library("myLibrary");
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
-    }
+//    // MODIFIES: this
+//    // EFFECTS: initializes library, no shows currently added
+//    private void init() {
+//        myLibrary = new Library("myLibrary");
+//        input = new Scanner(System.in);
+//        input.useDelimiter("\n");
+//    }
 
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
@@ -123,7 +125,6 @@ public class AniMosaic {
 
         System.out.print("Genre: ");
         genre = input.next();
-        genres.add(genre);
 
         // Loop to ensure rank between 0-10
         ranking = rankingCheck();
@@ -134,12 +135,13 @@ public class AniMosaic {
         // Loop to ensure currentEp >= TotalEp
         currentEp = currentEpCheck(totalEp);
 
-        Show newShow = new Show(name, genre, ranking, currentEp, totalEp);
+        String comments = "";
+
+        Show newShow = new Show(name, genre, comments, ranking, currentEp, totalEp);
 
         if (addToCategory(newShow) == false) {
             return;
         }
-        shows.add(name);
     }
 
     // MODIFIES: this
@@ -147,11 +149,11 @@ public class AniMosaic {
     private void doComments() {
         System.out.println("Which show's comments would you like to edit?: ");
         System.out.println("Please select from the following: \n");
-        System.out.println(shows);
+        System.out.println(getTotalShowList());
 
         Show show = getShow();
 
-        if (checkShow(show) == false) {
+        if (!checkShow(show)) {
             return;
         }
 
@@ -176,7 +178,7 @@ public class AniMosaic {
     private void doDeleteShow() {
         System.out.println("Which show would you like to delete?: ");
         System.out.print("Please select from the following: \n");
-        System.out.println(shows);
+        System.out.println(getTotalShowList());
 
         Show show = getShow();
         if (checkShow(show) == false) {
@@ -191,10 +193,10 @@ public class AniMosaic {
     private void doTransferShow() {
         System.out.println("Which show would you like to transfer across your library?");
         System.out.println("Select from one of the following: \n");
-        System.out.println(shows);
+        System.out.println(getTotalShowList());
 
         Show show = getShow();
-        if (checkShow(show) == false) {
+        if (!checkShow(show)) {
             return;
         }
 
@@ -218,10 +220,10 @@ public class AniMosaic {
     // EFFECTS: Displays given show in console if found, otherwise tells user show not in library
     private void doViewShow() {
         System.out.println("Please select from one of the following: \n");
-        System.out.println(shows);
+        System.out.println(getTotalShowList());
 
         Show show = getShow();
-        if (checkShow(show) == false) {
+        if (!checkShow(show)) {
             return;
         }
     }
@@ -252,7 +254,7 @@ public class AniMosaic {
 
         System.out.println("Which show would you like to update?: ");
         System.out.print("Please select from the following: \n");
-        System.out.println(shows);
+        System.out.println(getTotalShowList());
 
         Show show = getShow();
         if (checkShow(show) == false) {
@@ -280,6 +282,23 @@ public class AniMosaic {
         String name = input.next();
 
         return myLibrary.findShow(name);
+    }
+
+    // EFFECTS: Returns list of shows from all 4 categories
+    private ArrayList<String> getTotalShowList() {
+        ArrayList<String> shows = new ArrayList<>();
+        ArrayList<Show> completed = myLibrary.getCompleted();
+        ArrayList<Show> planned = myLibrary.getPlanned();
+        ArrayList<Show> watching = myLibrary.getWatching();
+        ArrayList<Show> dropped = myLibrary.getDropped();
+
+
+        for (List<Show> list : Arrays.asList(completed, planned, watching, dropped)) {
+            for (Show show : list) {
+                shows.add(show.getName());
+            }
+        }
+        return shows;
     }
 
     // EFFECTS: returns true if show found in library, else false

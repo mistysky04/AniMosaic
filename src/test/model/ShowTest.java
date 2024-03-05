@@ -10,13 +10,14 @@ class ShowTest {
 
     @BeforeEach
     void runBefore() {
-        testShow = new Show("HunterxHunter", "shounen", 5, 144, 148);
+        testShow = new Show("HunterxHunter", "shounen", "", 5, 144, 148);
     }
 
     @Test
     void testConstructor() {
         assertEquals("HunterxHunter", testShow.getName());
         assertEquals("shounen", testShow.getGenre());
+        assertEquals("", testShow.getComments());
         assertEquals(5, testShow.getRanking());
         assertEquals(144, testShow.getCurrentEp());
         assertEquals(148, testShow.getTotalEp());
