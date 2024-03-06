@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import org.json.*;
 
+// CITATION: CPSC 210 Serialization Demo https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 // Represents a reader that reads library from JSON data stored in file
 public class JsonReader {
     private String source;
@@ -51,7 +52,7 @@ public class JsonReader {
     }
 
     // MODIFIES: lb
-    // EFFECTS: parses completed from JSON object and adds them to Library
+    // EFFECTS: parses "completed" field from JSON object and adds them to library
     private void addCompleted(Library lb, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("completed");
         for (Object json : jsonArray) {
@@ -61,37 +62,37 @@ public class JsonReader {
     }
 
     // MODIFIES: lb
-    // EFFECTS: parses watching from JSON object and adds them to Library
+    // EFFECTS: parses "watching" list from JSON object and adds them to library
     private void addWatching(Library lb, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("watching");
         for (Object json : jsonArray) {
-            JSONObject nextThingy = (JSONObject) json;
-            addShowWatching(lb, nextThingy);
+            JSONObject nextShow = (JSONObject) json;
+            addShowWatching(lb, nextShow);
         }
     }
 
     // MODIFIES: lb
-    // EFFECTS: parses planned from JSON object and adds them to Library
+    // EFFECTS: parses "planned" list from JSON object and adds them to library
     private void addPlanned(Library lb, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("planned");
         for (Object json : jsonArray) {
-            JSONObject nextThingy = (JSONObject) json;
-            addShowPlanned(lb, nextThingy);
+            JSONObject nextShow = (JSONObject) json;
+            addShowPlanned(lb, nextShow);
         }
     }
 
     // MODIFIES: lb
-    // EFFECTS: parses dropped from JSON object and adds them to Library
+    // EFFECTS: parses "dropped" list from JSON object and adds them to library
     private void addDropped(Library lb, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("dropped");
         for (Object json : jsonArray) {
-            JSONObject nextThingy = (JSONObject) json;
-            addShowDropped(lb, nextThingy);
+            JSONObject nextShow = (JSONObject) json;
+            addShowDropped(lb, nextShow);
         }
     }
 
     // MODIFIES: lb
-    // EFFECTS: parses show from JSON object and adds it to Completed
+    // EFFECTS: parses show from JSON object and adds it to "completed" list
     private void addShowCompleted(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String genre = jsonObject.getString("genre");
@@ -105,7 +106,7 @@ public class JsonReader {
     }
 
     // MODIFIES: lb
-    // EFFECTS: parses show from JSON object and adds it to Completed
+    // EFFECTS: parses show from JSON object and adds it to "watching" list
     private void addShowWatching(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String genre = jsonObject.getString("genre");
@@ -119,7 +120,7 @@ public class JsonReader {
     }
 
     // MODIFIES: lb
-    // EFFECTS: parses show from JSON object and adds it to planned
+    // EFFECTS: parses show from JSON object and adds it to "planned" list
     private void addShowPlanned(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String genre = jsonObject.getString("genre");
@@ -133,7 +134,7 @@ public class JsonReader {
     }
 
     // MODIFIES: lb
-    // EFFECTS: parses show from JSON object and adds it to dropped
+    // EFFECTS: parses show from JSON object and adds it to "dropped" list
     private void addShowDropped(Library lb, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String genre = jsonObject.getString("genre");

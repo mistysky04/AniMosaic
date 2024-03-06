@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 // CITATION: CPSC 210 Teller App
+// CITATION: CPSC 210 Serialization Demo https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 // AniMosaic app
 public class AniMosaic {
     private JsonWriter jsonWriter;
@@ -41,8 +42,6 @@ public class AniMosaic {
         String command = null;
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-
-//        init();
 
         while (keepGoing) {
             displayMenu();
@@ -84,14 +83,6 @@ public class AniMosaic {
             System.out.println("Selection not valid...");
         }
     }
-
-//    // MODIFIES: this
-//    // EFFECTS: initializes library, no shows currently added
-//    private void init() {
-//        myLibrary = new Library("myLibrary");
-//        input = new Scanner(System.in);
-//        input.useDelimiter("\n");
-//    }
 
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
@@ -139,7 +130,7 @@ public class AniMosaic {
 
         Show newShow = new Show(name, genre, comments, ranking, currentEp, totalEp);
 
-        if (addToCategory(newShow) == false) {
+        if (!addToCategory(newShow)) {
             return;
         }
     }
@@ -181,7 +172,7 @@ public class AniMosaic {
         System.out.println(getTotalShowList());
 
         Show show = getShow();
-        if (checkShow(show) == false) {
+        if (!checkShow(show)) {
             return;
         }
 
@@ -280,11 +271,10 @@ public class AniMosaic {
     // EFFECTS: get show in library from given input
     private Show getShow() {
         String name = input.next();
-
         return myLibrary.findShow(name);
     }
 
-    // EFFECTS: Returns list of shows from all 4 categories
+    // EFFECTS: Returns list of show names from all 4 categories
     private ArrayList<String> getTotalShowList() {
         ArrayList<String> shows = new ArrayList<>();
         ArrayList<Show> completed = myLibrary.getCompleted();
