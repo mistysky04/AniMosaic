@@ -1,9 +1,11 @@
 package ui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,6 +28,11 @@ public class LoginPage implements ActionListener {
     private JLabel userId;
     private JLabel userPassword;
     private JLabel messageLabel;
+    private JLabel sakura;
+    private JLabel title;
+
+    private static int WIDTH = 420;
+    private static int HEIGHT = 420;
 
 //    private Font myFont;
 //    private static String fontPath = "src/main/ui/fonts/OleoScript-Bold.ttf";
@@ -43,8 +50,17 @@ public class LoginPage implements ActionListener {
         userId = new JLabel("userID:");
         userPassword = new JLabel("Password: ");
         messageLabel = new JLabel(); // in case of error with input
+        sakura = new JLabel();
+        title = new JLabel();
 
         initGui();
+        initSakuraPic();
+    }
+
+    public void initSakuraPic() {
+        ImageIcon sakuraPic = new ImageIcon("src/main/ui/images/sakura.jpeg");
+        sakura.setText("AniMosaic");
+        sakura.setIcon(sakuraPic);
     }
 
     // EFFECTS: creates GUI for login page with all fields
@@ -91,6 +107,12 @@ public class LoginPage implements ActionListener {
         resetButton.setFocusable(false);
         resetButton.setBackground(Color.decode("#ffc8dd"));
         resetButton.addActionListener(this);
+
+        sakura.setBounds(50, 240, 299, 168);
+        title.setText("AniMosaic");
+        title.setFont(new Font("Serif", Font.ITALIC, 30));
+        title.setBounds(160,20,200,100);
+
     }
 
     //EFFECTS: adds all components to frame
@@ -102,6 +124,8 @@ public class LoginPage implements ActionListener {
         frame.add(userPasswordField);
         frame.add(loginButton);
         frame.add(resetButton);
+        frame.add(sakura);
+        frame.add(title);
     }
 
     //MODIFIES: this

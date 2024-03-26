@@ -24,9 +24,9 @@ public class ViewAnimePage {
     public ViewAnimePage() {
         frame = new JFrame(); //creates a frame
         frame.setTitle("AniMosaic"); //sets title of frame
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
         frame.setResizable(false); //prevent screen size from being resized
-        frame.setSize(420, 420); // sets x and y of frame
         frame.setVisible(true); //make frame visible
 
         ImageIcon image = new ImageIcon("src/main/ui/images/cherry_blossom_icon.png"); //create an imageIcon
