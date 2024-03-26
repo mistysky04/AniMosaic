@@ -3,6 +3,7 @@ package ui;
 import model.Show;
 import model.Library;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +29,7 @@ public class AniMosaic {
 
     // EFFECTS: runs the AniMosaic application
     public AniMosaic() throws FileNotFoundException {
+
         input = new Scanner(System.in);
         myLibrary = new Library("My Library");
         jsonWriter = new JsonWriter(JSON_STORE);
