@@ -1,13 +1,9 @@
 package ui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,12 +26,6 @@ public class LoginPage implements ActionListener {
     private JLabel messageLabel;
     private JLabel sakura;
     private JLabel title;
-
-    private static int WIDTH = 420;
-    private static int HEIGHT = 420;
-
-//    private Font myFont;
-//    private static String fontPath = "src/main/ui/fonts/OleoScript-Bold.ttf";
 
     //MODIFIES: this
     //EFFECTS: creates new Login Page with given login info
@@ -74,16 +64,6 @@ public class LoginPage implements ActionListener {
         frame.setVisible(true);
         frame.setResizable(false);
 
-//        try {
-//            myFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontPath));
-//            myFont.deriveFont(20f);
-//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//            ge.registerFont(myFont);
-//
-//        } catch (IOException | FontFormatException e) {
-//            System.out.println("Font Not Recognized");
-//        }
-
         initComponents();
         addToFrame();
     }
@@ -96,7 +76,8 @@ public class LoginPage implements ActionListener {
         userPasswordField.setBounds(125, 150, 200, 25);
 
         messageLabel.setBounds(125, 250, 250, 35);
-        messageLabel.setFont(new Font(null, Font.ITALIC,25));
+        messageLabel.setFont(new Font(Font.SERIF, Font.ITALIC, 25));
+
 
         loginButton.setBounds(125,200, 100, 25);
         loginButton.setFocusable(false);
@@ -148,7 +129,7 @@ public class LoginPage implements ActionListener {
                 if (loginInfo.get(userId).equals(password)) {
                     messageLabel.setForeground(Color.decode("#bbe784"));
                     messageLabel.setText("Login successful");
-                    ViewAnimePage viewAnimePage = new ViewAnimePage();
+                    new ViewAnimePage();
                 } else {
                     messageLabel.setForeground(Color.decode("#c61e09"));
                     messageLabel.setText("Wrong Password");
