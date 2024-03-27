@@ -53,9 +53,9 @@ public class Show implements Writable {
     @Override
     public String toString() {
         String epRatio = Integer.toString(currentEp) + "/" + Integer.toString(totalEp);
-        return "[ name: " + name + "\n\tgenre: " + genre
+        return "name: " + name + "\n\tgenre: " + genre
                 + "\n\tranking: " + ranking + "\n\tepisodes: " + epRatio
-                + "\n\tcomments: " + comments + " ]\n";
+                + "\n\tcomments: " + comments + "\n";
     }
 
     // Setters & Getters

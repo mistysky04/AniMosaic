@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class ViewAnimePage implements ActionListener {
@@ -51,6 +52,8 @@ public class ViewAnimePage implements ActionListener {
 
     private Library myLibrary;
 
+    private ArrayList<JButton> showButtons;
+
     public ViewAnimePage() {
         initFrame();
 
@@ -62,6 +65,8 @@ public class ViewAnimePage implements ActionListener {
         categories[1] = "watching";
         categories[2] = "planned";
         categories[3] = "dropped";
+
+        showButtons = new ArrayList<>();
     }
 
     public void initFrame() {
@@ -176,9 +181,24 @@ public class ViewAnimePage implements ActionListener {
             System.out.println("Filtering watching...");
         } else if (e.getSource() == planned) {
             System.out.println("Filtering planned...");
-        } else {
+        } else if (e.getSource() == dropped) {
             System.out.println("Filtering dropped...");
+        } else {
+            for (JButton button : showButtons) {
+                String show = e.getActionCommand();
+                viewShowAttributes(show);
+                return;
+            }
         }
+    }
+
+    private void viewShowAttributes(String show) {
+        Show givenShow = myLibrary.findShow(show);
+
+        JOptionPane.showMessageDialog(null,
+                givenShow.toString(),
+                "Your Show", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     // MODIFIES: this
@@ -217,6 +237,8 @@ public class ViewAnimePage implements ActionListener {
 
     public void displayShow(Show show) {
         JButton newShow = new JButton(show.getName());
+        newShow.addActionListener(this);
+
         newShow.setPreferredSize(dimension1);
         newShow.setFocusable(false);
         newShow.setFont(new Font(Font.SERIF, Font.ITALIC, 18));
@@ -234,6 +256,8 @@ public class ViewAnimePage implements ActionListener {
         allShows.add(newShow);
         allShows.setVisible(false);
         allShows.setVisible(true);
+
+        showButtons.add(newShow);
     }
 
     // EFFECTS: prompts user to continue giving ranking until it satisfies condition
