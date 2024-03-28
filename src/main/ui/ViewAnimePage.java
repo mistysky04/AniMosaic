@@ -21,6 +21,8 @@ How I learned to calculated screenHeight for use in dimensions https://alvinalex
 
     Checkbox icons <a href="https://www.flaticon.com/free-icons/okay" title="okay icons">Okay icons created by Bharat Icons - Flaticon</a>
 
+    How to get custom buttons https://stackoverflow.com/questions/14591089/joptionpane-passing-custom-buttons
+
 */
 
 public class ViewAnimePage implements ActionListener {
@@ -28,26 +30,25 @@ public class ViewAnimePage implements ActionListener {
     // CONSTANTS
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static int screenHeight = (int) screenSize.getHeight();
-    private static int screenWidth = (int) screenSize.getWidth();
 
     private static final Dimension showButtonDimensions = new Dimension(175,275);
     private static final Dimension sideBarPanelDimensions = new Dimension(200, screenHeight);
     private static final String JSON_STORE = "./data/library.json";
 
     // IMAGE PATHS
-    private static final String sakuraPath = "src/main/ui/images/cherry_blossom_icon.png";
+    private static final String sakuraPath = "./data/images/cherry_blossom_icon.png";
 
-    private static final String saveIconPath = "src/main/ui/images/SM_PNG-01_resize.png";
-    private static final String loadIconPath = "src/main/ui/images/SM_PNG-04_resize.png";
+    private static final String saveIconPath = "./data/images/SM_PNG-01_resize.png";
+    private static final String loadIconPath = "./data/images/SM_PNG-04_resize.png";
 
-    private static final String addShowIconPath = "src/main/ui/images/SM_PNG-05_resize.png";
-    private static final String deleteShowIconPath = "src/main/ui/images/SM_PNG-06_resize.png";
+    private static final String addShowIconPath = "./data/images/SM_PNG-05_resize.png";
+    private static final String deleteShowIconPath = "./data/images/SM_PNG-06_resize.png";
 
-    private static final String completedIconPath = "src/main/ui/images/SM_PNG-07_resize.png";
-    private static final String watchingIconPath = "src/main/ui/images/SM_PNG-08_resize.png";
-    private static final String plannedIconPath = "src/main/ui/images/SM_PNG-09_resize.png";
-    private static final String droppedIconPath = "src/main/ui/images/SM_PNG-10_resize.png";
-    private static final String resetIconPath = "src/main/ui/images/SM_PNG-11_resize.png";
+    private static final String completedIconPath = "./data/images/SM_PNG-07_resize.png";
+    private static final String watchingIconPath = "./data/images/SM_PNG-08_resize.png";
+    private static final String plannedIconPath = "./data/images/SM_PNG-09_resize.png";
+    private static final String droppedIconPath = "./data/images/SM_PNG-10_resize.png";
+    private static final String resetIconPath = "./data/images/SM_PNG-11_resize.png";
 
     // COLOUR PALETTE
     private static final String darkPurple = "#392f5a";
@@ -119,7 +120,6 @@ public class ViewAnimePage implements ActionListener {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         showButtons = new ArrayList<>();
-        //allShows = new JPanel(new FlowLayout(FlowLayout.LEFT, 30,30));
         wrapLayout = new WrapLayout(FlowLayout.LEFT, 30,30);
 
         allShows = new JPanel(wrapLayout);
@@ -328,6 +328,7 @@ public class ViewAnimePage implements ActionListener {
     }
 
     @Override
+    @SuppressWarnings("checkstyle:MethodLength")
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loadFile) {
             loadLibrary();
@@ -577,12 +578,12 @@ public class ViewAnimePage implements ActionListener {
     private void updateOnLoadLibrary() {
         allShows.removeAll();
 
-        ArrayList<Show> completed = myLibrary.getCompleted();
-        ArrayList<Show> planned = myLibrary.getPlanned();
-        ArrayList<Show> dropped = myLibrary.getDropped();
-        ArrayList<Show> watching = myLibrary.getWatching();
+        completedList = myLibrary.getCompleted();
+        plannedList = myLibrary.getPlanned();
+        droppedList = myLibrary.getDropped();
+        watchingList = myLibrary.getWatching();
 
-        for (ArrayList<Show> list : Arrays.asList(completed, watching, planned, dropped)) {
+        for (ArrayList<Show> list : Arrays.asList(completedList, watchingList, plannedList, droppedList)) {
             for (Show show : list) {
                 displayShow(show);
             }
