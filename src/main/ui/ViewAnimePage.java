@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /* To help me store screenHeight as int https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
 How I learned to calculated screenHeight for use in dimensions https://alvinalexander.com/blog/post/jfc-swing/
@@ -89,6 +90,7 @@ public class ViewAnimePage implements ActionListener {
     // LIBRARY ITEMS
     private String[] categories = new String[4];
     private Library myLibrary;
+
 
     // EFFECTS: Initializes all components of ViewAnimePage GUI
     public ViewAnimePage() {
@@ -260,7 +262,7 @@ public class ViewAnimePage implements ActionListener {
         } else if (e.getSource() == addShow) {
             addShow();
         } else if (e.getSource() == deleteShow) {
-            System.out.println("Deleting show...");
+            deleteShow();
         } else if (e.getSource() == completed) {
             System.out.println("Filtering completed...");
         } else if (e.getSource() == watching) {
@@ -384,6 +386,55 @@ public class ViewAnimePage implements ActionListener {
                     + "episode number: "));
         }
         return currentEp;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: deletes a show from the library
+    public void deleteShow() {
+        String showName = JOptionPane.showInputDialog("Please select from the following shows to remove from your "
+                + "library: " + getTotalShowList());
+
+        Show show = myLibrary.findShow(showName);
+
+        while (show == null) {
+            JOptionPane.showMessageDialog(null,"Show does not exist in library",
+                    "Show Nonexistent", JOptionPane.INFORMATION_MESSAGE);
+            showName = JOptionPane.showInputDialog("Please select from the following shows to remove from your "
+                    + "library: " + getTotalShowList());
+            show = myLibrary.findShow(showName);
+        }
+
+        showButtons.remove(show);
+
+        for (JButton button : showButtons) {
+            if (button.getText() == show.getName()) {
+                allShows.remove(button);
+            }
+        }
+
+        allShows.setVisible(false);
+        allShows.setVisible(true);
+
+        JOptionPane.showMessageDialog(null, myLibrary.removeFromList(show), "Removed",
+                JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    // EFFECTS: Returns list of show names from all 4 categories
+    private ArrayList<String> getTotalShowList() {
+        ArrayList<String> shows = new ArrayList<>();
+        ArrayList<Show> completed = myLibrary.getCompleted();
+        ArrayList<Show> planned = myLibrary.getPlanned();
+        ArrayList<Show> watching = myLibrary.getWatching();
+        ArrayList<Show> dropped = myLibrary.getDropped();
+
+
+        for (List<Show> list : Arrays.asList(completed, planned, watching, dropped)) {
+            for (Show show : list) {
+                shows.add(show.getName());
+            }
+        }
+        return shows;
     }
 
 

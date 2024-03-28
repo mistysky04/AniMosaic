@@ -53,7 +53,7 @@ public class Library implements Writable {
             for (Show newShow : list) {
                 if (newShow.getName().equalsIgnoreCase(show.getName())) {
                     list.remove(show);
-                    return "done";
+                    return "Show Removed Successfully!";
                 }
             }
         }
