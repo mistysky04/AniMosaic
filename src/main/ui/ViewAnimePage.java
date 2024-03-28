@@ -13,98 +13,138 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
+/* To help me store screenHeight as int https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
+How I learned to calculated screenHeight for use in dimensions https://alvinalexander.com/blog/post/jfc-swing/
+    how-determine-get-screen-size-java-swing-app/#:~:text=Once%20you%20have%20the%20screen,getWidth()%3B
+
+*/
 
 public class ViewAnimePage implements ActionListener {
 
-    private JFrame frame;
+    // CONSTANTS
+    private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static int screenHeight = (int) screenSize.getHeight();
+    private static int screenWidth = (int) screenSize.getWidth();
 
+    private static final Dimension showButtonDimensions = new Dimension(200,300);
+    private static final Dimension sideBarPanelDimensions = new Dimension(200, screenHeight);
+    private static final String JSON_STORE = "./data/library.json";
+
+    // IMAGE PATHS
+    private static final String sakuraPath = "src/main/ui/images/cherry_blossom_icon.png";
+    private static final String saveIconPath = "src/main/ui/images/SM_PNG-01_resize.png";
+    private static final String loadIconPath = "src/main/ui/images/SM_PNG-04_resize.png";
+    private static final String addShowIconPath = "src/main/ui/images/SM_PNG-05_resize.png";
+    private static final String deleteShowIconPath = "src/main/ui/images/SM_PNG-06_resize.png";
+
+
+    // COLOUR PALETTE
+    private static final String darkPurple = "#392f5a";
+    private static final String darkPink = "#f092dd";
+    private static final String medPink = "#ffaff0";
+    private static final String lightPink = "#eec8e0";
+    private static final String lightGreen = "#a8c7bb";
+
+    // PANELS & FRAMES
+    private JFrame frame;
+    private JPanel allShows;
+    private JPanel sideBar;
+
+    // MENUS
     private JMenuBar menuBar;
     private JMenu file;
-    private JMenu shows;
     private JMenu filter;
 
     private JMenuItem saveFile;
     private JMenuItem loadFile;
-    private JMenuItem addShow;
-    private JMenuItem deleteShow;
     private JMenuItem planned;
     private JMenuItem completed;
     private JMenuItem watching;
     private JMenuItem dropped;
 
+    // BUTTONS
+    private ArrayList<JButton> showButtons;
+    private JButton addShow;
+    private JButton deleteShow;
+
+    // LABELS
+    private JLabel panelPic1;
+    private JLabel panelPic2;
+
+    // IMAGES
     private ImageIcon saveIcon;
     private ImageIcon loadIcon;
-    private ImageIcon addShowIcon;
-    private ImageIcon deleteShowIcon;
     private ImageIcon completedIcon;
     private ImageIcon watchingIcon;
     private ImageIcon plannedIcon;
     private ImageIcon droppedIcon;
+    private ImageIcon sakura;
 
-    private JPanel allShows;
 
+    // JSON
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    private static final String JSON_STORE = "./data/library.json";
+
+    // LIBRARY ITEMS
     private String[] categories = new String[4];
-
-    private static Dimension dimension1 = new Dimension(200,300);
-
     private Library myLibrary;
 
-    private ArrayList<JButton> showButtons;
-
+    // EFFECTS: Initializes all components of ViewAnimePage GUI
     public ViewAnimePage() {
-        initFrame();
-
         myLibrary = new Library("My Library");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+        showButtons = new ArrayList<>();
+        allShows = new JPanel(new FlowLayout(FlowLayout.LEFT, 30,30));
+        sideBar = new JPanel(null);
+        frame = new JFrame();
+        menuBar = new JMenuBar();
+        sakura = new ImageIcon();
 
         categories[0] = "completed";
         categories[1] = "watching";
         categories[2] = "planned";
         categories[3] = "dropped";
 
-        showButtons = new ArrayList<>();
+        initFrame();
 
-        allShows = new JPanel(new FlowLayout(FlowLayout.LEFT, 30,30));
         allShows.setVisible(true);
-
-        frame.add(allShows, BorderLayout.CENTER);
+        sideBar.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes all aspects of overall ViewAnimePage frame
     public void initFrame() {
-        frame = new JFrame();
         frame.setLayout(new BorderLayout());
         frame.setBackground(Color.WHITE);
         frame.setTitle("AniMosaic");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
+
+        frame.add(allShows, BorderLayout.CENTER);
+        frame.add(sideBar, BorderLayout.EAST);
+
+        sakura = new ImageIcon(sakuraPath);
+        frame.setIconImage(sakura.getImage());
+
         frame.setVisible(true);
 
-        menuBar = new JMenuBar();
-
-        ImageIcon image = new ImageIcon("src/main/ui/images/cherry_blossom_icon.png"); //create an imageIcon
-        frame.setIconImage(image.getImage()); //change icon of frame
-
         initMenuBar();
+        addSideBar();
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes all components of JMenuBar
     public void initMenuBar() {
         frame.setJMenuBar(menuBar);
 
         file = new JMenu("File");
-        shows = new JMenu("Shows");
         filter = new JMenu("Filter");
 
         saveFile = new JMenuItem("Save Library");
         loadFile = new JMenuItem("Load Library");
-        addShow = new JMenuItem("Add Show");
-        deleteShow = new JMenuItem("Delete Show");
         completed = new JMenuItem("Completed");
         watching = new JMenuItem("Watching");
         planned = new JMenuItem("Planned");
@@ -114,40 +154,13 @@ public class ViewAnimePage implements ActionListener {
         initPicsForMenuBar();
     }
 
-    public void initPicsForMenuBar() {
-
-        saveIcon = new ImageIcon("src/main/ui/images/SM_PNG-01_resize.png");
-        loadIcon = new ImageIcon("src/main/ui/images/SM_PNG-04_resize.png");
-        addShowIcon = new ImageIcon("src/main/ui/images/SM_PNG-05_resize.png");
-        deleteShowIcon = new ImageIcon("src/main/ui/images/SM_PNG-06_resize.png");
-        completedIcon = new ImageIcon("src/main/ui/images/SM_PNG-07_resize.png");
-        watchingIcon = new ImageIcon("src/main/ui/images/SM_PNG-08_resize.png");
-        plannedIcon = new ImageIcon("src/main/ui/images/SM_PNG-09_resize.png");
-        droppedIcon = new ImageIcon("src/main/ui/images/SM_PNG-10_resize.png");
-
-
-        addPicsToMenuBar();
-    }
-
-    public void addPicsToMenuBar() {
-        saveFile.setIcon(saveIcon);
-        loadFile.setIcon(loadIcon);
-        addShow.setIcon(addShowIcon);
-        deleteShow.setIcon(deleteShowIcon);
-        completed.setIcon(completedIcon);
-        watching.setIcon(watchingIcon);
-        planned.setIcon(plannedIcon);
-        dropped.setIcon(droppedIcon);
-    }
-
+    // MODIFIES: this
+    // EFFECTS: Adds all JMenuItems to the JMenuBar, and adds ActionListener functionality to each
     public void addComponentsToMenuBar() {
         menuBar.add(file);
-        menuBar.add(shows);
         menuBar.add(filter);
         file.add(saveFile);
         file.add(loadFile);
-        shows.add(addShow);
-        shows.add(deleteShow);
         filter.add(completed);
         filter.add(watching);
         filter.add(planned);
@@ -156,14 +169,86 @@ public class ViewAnimePage implements ActionListener {
 
         saveFile.addActionListener(this);
         loadFile.addActionListener(this);
-        addShow.addActionListener(this);
-        deleteShow.addActionListener(this);
         completed.addActionListener(this);
         watching.addActionListener(this);
         planned.addActionListener(this);
         dropped.addActionListener(this);
 
         frame.setVisible(true);
+    }
+
+    // EFFECTS: initializes ImageIcons for all JMenuItems
+    public void initPicsForMenuBar() {
+        saveIcon = new ImageIcon(saveIconPath);
+        loadIcon = new ImageIcon(loadIconPath);
+        completedIcon = new ImageIcon("src/main/ui/images/SM_PNG-07_resize.png");
+        watchingIcon = new ImageIcon("src/main/ui/images/SM_PNG-08_resize.png");
+        plannedIcon = new ImageIcon("src/main/ui/images/SM_PNG-09_resize.png");
+        droppedIcon = new ImageIcon("src/main/ui/images/SM_PNG-10_resize.png");
+
+        addPicsToMenuBar();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets ImageIcons sets all JMenuItems
+    public void addPicsToMenuBar() {
+        saveFile.setIcon(saveIcon);
+        loadFile.setIcon(loadIcon);
+        completed.setIcon(completedIcon);
+        watching.setIcon(watchingIcon);
+        planned.setIcon(plannedIcon);
+        dropped.setIcon(droppedIcon);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets SideBar on side of frame
+    public void addSideBar() {
+        sideBar.setPreferredSize(sideBarPanelDimensions);
+        sideBar.setBorder(BorderFactory.createEtchedBorder());
+
+        initSideBarComponents();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Initializes sidebar components
+    public void initSideBarComponents() {
+        addShow = new JButton("ADD");
+        addShow.setFocusable(false);
+        addShow.setBackground(Color.decode(darkPurple));
+        addShow.setForeground(Color.decode(lightPink));
+        addShow.setBounds(50, 100, 100, 75);
+        addShow.setFont(new Font("Serif", Font.ITALIC, 16));
+        addShow.addActionListener(this);
+
+        deleteShow = new JButton("DELETE");
+        deleteShow.setFocusable(false);
+        deleteShow.setBackground(Color.decode(lightPink));
+        deleteShow.setForeground(Color.decode(darkPurple));
+        deleteShow.setBounds(50, 200, 100, 75);
+        deleteShow.setFont(new Font("Serif", Font.ITALIC, 16));
+        deleteShow.addActionListener(this);
+
+        panelPic1 = new JLabel(new ImageIcon(addShowIconPath));
+        panelPic1.setBounds(80,50, panelPic1.getIcon().getIconWidth(), panelPic1.getIcon().getIconHeight());
+
+        panelPic2 = new JLabel(new ImageIcon(deleteShowIconPath));
+        panelPic2.setBounds(80,300, panelPic2.getIcon().getIconWidth(), panelPic2.getIcon().getIconHeight());
+
+        addSideBarComponents();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds sidebar components to the side bar
+    public void addSideBarComponents() {
+        addShow.setVisible(true);
+        deleteShow.setVisible(true);
+        panelPic1.setVisible(true);
+        panelPic2.setVisible(true);
+
+        sideBar.add(addShow);
+        sideBar.add(deleteShow);
+        sideBar.add(panelPic1);
+        sideBar.add(panelPic2);
     }
 
     @Override
@@ -217,14 +302,11 @@ public class ViewAnimePage implements ActionListener {
 
         // Loop to ensure rank between 0-10
         ranking = rankingCheck();
-
         totalEp = Integer.parseInt(JOptionPane.showInputDialog("Enter TOTAL EPISODE NUMBER:"));
 
         // Loop to ensure currentEp >= TotalEp
         currentEp = currentEpCheck(totalEp);
-
         String comments = "";
-
         Show newShow = new Show(name, genre, comments, ranking, currentEp, totalEp);
 
         category = JOptionPane.showInputDialog(null, "Choose a CATEGORY", "Categories",
@@ -240,7 +322,7 @@ public class ViewAnimePage implements ActionListener {
         JButton newShow = new JButton(show.getName());
         newShow.addActionListener(this);
 
-        newShow.setPreferredSize(dimension1);
+        newShow.setPreferredSize(showButtonDimensions);
         newShow.setFocusable(false);
         newShow.setFont(new Font(Font.SERIF, Font.ITALIC, 18));
 
