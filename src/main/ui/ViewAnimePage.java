@@ -19,6 +19,8 @@ import java.util.List;
 How I learned to calculated screenHeight for use in dimensions https://alvinalexander.com/blog/post/jfc-swing/
     how-determine-get-screen-size-java-swing-app/#:~:text=Once%20you%20have%20the%20screen,getWidth()%3B
 
+    Checkbox icons <a href="https://www.flaticon.com/free-icons/okay" title="okay icons">Okay icons created by Bharat Icons - Flaticon</a>
+
 */
 
 public class ViewAnimePage implements ActionListener {
@@ -34,10 +36,19 @@ public class ViewAnimePage implements ActionListener {
 
     // IMAGE PATHS
     private static final String sakuraPath = "src/main/ui/images/cherry_blossom_icon.png";
+
     private static final String saveIconPath = "src/main/ui/images/SM_PNG-01_resize.png";
     private static final String loadIconPath = "src/main/ui/images/SM_PNG-04_resize.png";
+
     private static final String addShowIconPath = "src/main/ui/images/SM_PNG-05_resize.png";
     private static final String deleteShowIconPath = "src/main/ui/images/SM_PNG-06_resize.png";
+
+    private static final String completedIconPath = "src/main/ui/images/SM_PNG-07_resize.png";
+    private static final String watchingIconPath = "src/main/ui/images/SM_PNG-08_resize.png";
+    private static final String plannedIconPath = "src/main/ui/images/SM_PNG-09_resize.png";
+    private static final String droppedIconPath = "src/main/ui/images/SM_PNG-10_resize.png";
+    private static final String resetIconPath = "src/main/ui/images/SM_PNG-11_resize.png";
+
 
 
     // COLOUR PALETTE
@@ -55,14 +66,9 @@ public class ViewAnimePage implements ActionListener {
     // MENUS
     private JMenuBar menuBar;
     private JMenu file;
-    private JMenu filter;
 
     private JMenuItem saveFile;
     private JMenuItem loadFile;
-    private JMenuItem planned;
-    private JMenuItem completed;
-    private JMenuItem watching;
-    private JMenuItem dropped;
 
     // BUTTONS
     private ArrayList<JButton> showButtons;
@@ -73,6 +79,15 @@ public class ViewAnimePage implements ActionListener {
     private JLabel panelPic1;
     private JLabel panelPic2;
 
+    // RADIO BUTTONS
+    private ButtonGroup filters;
+
+    private JRadioButton completed;
+    private JRadioButton watching;
+    private JRadioButton planned;
+    private JRadioButton dropped;
+    private JRadioButton reset;
+
     // IMAGES
     private ImageIcon saveIcon;
     private ImageIcon loadIcon;
@@ -80,6 +95,7 @@ public class ViewAnimePage implements ActionListener {
     private ImageIcon watchingIcon;
     private ImageIcon plannedIcon;
     private ImageIcon droppedIcon;
+    private ImageIcon resetIcon;
     private ImageIcon sakura;
 
 
@@ -143,14 +159,9 @@ public class ViewAnimePage implements ActionListener {
         frame.setJMenuBar(menuBar);
 
         file = new JMenu("File");
-        filter = new JMenu("Filter");
 
         saveFile = new JMenuItem("Save Library");
         loadFile = new JMenuItem("Load Library");
-        completed = new JMenuItem("Completed");
-        watching = new JMenuItem("Watching");
-        planned = new JMenuItem("Planned");
-        dropped = new JMenuItem("Dropped");
 
         addComponentsToMenuBar();
         initPicsForMenuBar();
@@ -160,21 +171,12 @@ public class ViewAnimePage implements ActionListener {
     // EFFECTS: Adds all JMenuItems to the JMenuBar, and adds ActionListener functionality to each
     public void addComponentsToMenuBar() {
         menuBar.add(file);
-        menuBar.add(filter);
+
         file.add(saveFile);
         file.add(loadFile);
-        filter.add(completed);
-        filter.add(watching);
-        filter.add(planned);
-        filter.add(dropped);
-
 
         saveFile.addActionListener(this);
         loadFile.addActionListener(this);
-        completed.addActionListener(this);
-        watching.addActionListener(this);
-        planned.addActionListener(this);
-        dropped.addActionListener(this);
 
         frame.setVisible(true);
     }
@@ -183,10 +185,6 @@ public class ViewAnimePage implements ActionListener {
     public void initPicsForMenuBar() {
         saveIcon = new ImageIcon(saveIconPath);
         loadIcon = new ImageIcon(loadIconPath);
-        completedIcon = new ImageIcon("src/main/ui/images/SM_PNG-07_resize.png");
-        watchingIcon = new ImageIcon("src/main/ui/images/SM_PNG-08_resize.png");
-        plannedIcon = new ImageIcon("src/main/ui/images/SM_PNG-09_resize.png");
-        droppedIcon = new ImageIcon("src/main/ui/images/SM_PNG-10_resize.png");
 
         addPicsToMenuBar();
     }
@@ -196,10 +194,6 @@ public class ViewAnimePage implements ActionListener {
     public void addPicsToMenuBar() {
         saveFile.setIcon(saveIcon);
         loadFile.setIcon(loadIcon);
-        completed.setIcon(completedIcon);
-        watching.setIcon(watchingIcon);
-        planned.setIcon(plannedIcon);
-        dropped.setIcon(droppedIcon);
     }
 
     // MODIFIES: this
@@ -215,6 +209,33 @@ public class ViewAnimePage implements ActionListener {
     // EFFECTS: Initializes sidebar components
     public void initSideBarComponents() {
         addShow = new JButton("ADD");
+        deleteShow = new JButton("DELETE");
+
+        panelPic1 = new JLabel(new ImageIcon(addShowIconPath));
+        panelPic2 = new JLabel(new ImageIcon(deleteShowIconPath));
+
+        filters = new ButtonGroup();
+        completed = new JRadioButton("Completed");
+        watching = new JRadioButton("Watching");
+        planned = new JRadioButton("Planned");
+        dropped = new JRadioButton("Dropped");
+        reset = new JRadioButton("Reset");
+
+        completedIcon = new ImageIcon(completedIconPath);
+        watchingIcon = new ImageIcon(watchingIconPath);
+        plannedIcon = new ImageIcon(plannedIconPath);
+        droppedIcon = new ImageIcon(droppedIconPath);
+        resetIcon = new ImageIcon(resetIconPath);
+
+        setSideBarComponents();
+        addSideBarComponents();
+        addButtonsToGroup();
+        initRadioButtonsForFilter();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets all necessary aspects of sidebar components
+    public void setSideBarComponents() {
         addShow.setFocusable(false);
         addShow.setBackground(Color.decode(darkPurple));
         addShow.setForeground(Color.decode(lightPink));
@@ -222,7 +243,6 @@ public class ViewAnimePage implements ActionListener {
         addShow.setFont(new Font("Serif", Font.ITALIC, 16));
         addShow.addActionListener(this);
 
-        deleteShow = new JButton("DELETE");
         deleteShow.setFocusable(false);
         deleteShow.setBackground(Color.decode(lightPink));
         deleteShow.setForeground(Color.decode(darkPurple));
@@ -230,13 +250,45 @@ public class ViewAnimePage implements ActionListener {
         deleteShow.setFont(new Font("Serif", Font.ITALIC, 16));
         deleteShow.addActionListener(this);
 
-        panelPic1 = new JLabel(new ImageIcon(addShowIconPath));
         panelPic1.setBounds(80,50, panelPic1.getIcon().getIconWidth(), panelPic1.getIcon().getIconHeight());
-
-        panelPic2 = new JLabel(new ImageIcon(deleteShowIconPath));
         panelPic2.setBounds(80,300, panelPic2.getIcon().getIconWidth(), panelPic2.getIcon().getIconHeight());
+    }
 
-        addSideBarComponents();
+    public void addButtonsToGroup() {
+        filters.add(completed);
+        filters.add(watching);
+        filters.add(planned);
+        filters.add(dropped);
+        filters.add(reset);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: updates radio buttons
+    public void initRadioButtonsForFilter() {
+        completed.setBounds(25, 400, 150, 50);
+        completed.setFont(new Font("Serif", Font.ITALIC, 14));
+        completed.setIcon(completedIcon);
+        completed.addActionListener(this);
+
+        watching.setBounds(25, 475, 150, 50);
+        watching.setFont(new Font("Serif", Font.ITALIC, 14));
+        watching.setIcon(watchingIcon);
+        watching.addActionListener(this);
+
+        planned.setBounds(25, 550, 150, 50);
+        planned.setFont(new Font("Serif", Font.ITALIC, 14));
+        planned.setIcon(plannedIcon);
+        planned.addActionListener(this);
+
+        dropped.setBounds(25, 625, 150, 50);
+        dropped.setFont(new Font("Serif", Font.ITALIC, 14));
+        dropped.setIcon(droppedIcon);
+        dropped.addActionListener(this);
+
+        reset.setBounds(25, 700, 150, 50);
+        reset.setFont(new Font("Serif", Font.ITALIC, 14));
+        reset.setIcon(resetIcon);
+        reset.addActionListener(this);
     }
 
     // MODIFIES: this
@@ -246,11 +298,22 @@ public class ViewAnimePage implements ActionListener {
         deleteShow.setVisible(true);
         panelPic1.setVisible(true);
         panelPic2.setVisible(true);
+        completed.setVisible(true);
+        watching.setVisible(true);
+        planned.setVisible(true);
+        deleteShow.setVisible(true);
+
 
         sideBar.add(addShow);
         sideBar.add(deleteShow);
         sideBar.add(panelPic1);
         sideBar.add(panelPic2);
+
+        sideBar.add(completed);
+        sideBar.add(watching);
+        sideBar.add(planned);
+        sideBar.add(dropped);
+        sideBar.add(reset);
     }
 
     @Override
@@ -264,20 +327,108 @@ public class ViewAnimePage implements ActionListener {
         } else if (e.getSource() == deleteShow) {
             deleteShow();
         } else if (e.getSource() == completed) {
-            System.out.println("Filtering completed...");
+            filterComplete();
         } else if (e.getSource() == watching) {
-            System.out.println("Filtering watching...");
+            filterWatching();
         } else if (e.getSource() == planned) {
-            System.out.println("Filtering planned...");
+            filterPlanned();
         } else if (e.getSource() == dropped) {
-            System.out.println("Filtering dropped...");
+            filterDropped();
+        } else if (e.getSource() == reset) {
+            updateOnLoadLibrary();
         } else {
-            for (JButton button : showButtons) {
-                String show = e.getActionCommand();
-                viewShowAttributes(show);
-                return;
+            showInfo(e);
+        }
+    }
+
+    public void showInfo(ActionEvent e) {
+        for (JButton button : showButtons) {
+            String show = e.getActionCommand();
+            viewShowAttributes(show);
+            return;
+        }
+    }
+
+    public void filterComplete() {
+        ArrayList<Show> watching = myLibrary.getWatching();
+        ArrayList<Show> planned = myLibrary.getPlanned();
+        ArrayList<Show> dropped = myLibrary.getDropped();
+
+        for (ArrayList<Show> list : Arrays.asList(watching, planned, dropped)) {
+            for (Show show : list) {
+                showButtons.remove(show);
+                for (JButton button : showButtons) {
+                    if (button.getText() == show.getName()) {
+                        allShows.remove(button);
+                    }
+                }
             }
         }
+
+        allShows.setVisible(false);
+        allShows.setVisible(true);
+    }
+
+    public void filterWatching() {
+        ArrayList<Show> completed = myLibrary.getCompleted();
+        ArrayList<Show> planned = myLibrary.getPlanned();
+        ArrayList<Show> dropped = myLibrary.getDropped();
+
+        for (ArrayList<Show> list : Arrays.asList(completed, planned, dropped)) {
+            for (Show show : list) {
+                showButtons.remove(show);
+                for (JButton button : showButtons) {
+                    if (button.getText() == show.getName()) {
+                        allShows.remove(button);
+                    }
+                }
+            }
+        }
+
+        allShows.setVisible(false);
+        allShows.setVisible(true);
+
+    }
+
+    public void filterPlanned() {
+        ArrayList<Show> completed = myLibrary.getCompleted();
+        ArrayList<Show> watching = myLibrary.getWatching();
+        ArrayList<Show> dropped = myLibrary.getDropped();
+
+        for (ArrayList<Show> list : Arrays.asList(completed, watching, dropped)) {
+            for (Show show : list) {
+                showButtons.remove(show);
+                for (JButton button : showButtons) {
+                    if (button.getText() == show.getName()) {
+                        allShows.remove(button);
+                    }
+                }
+            }
+        }
+
+        allShows.setVisible(false);
+        allShows.setVisible(true);
+    }
+
+    public void filterDropped() {
+        ArrayList<Show> completed = myLibrary.getCompleted();
+        ArrayList<Show> planned = myLibrary.getPlanned();
+        ArrayList<Show> watching = myLibrary.getWatching();
+
+        for (ArrayList<Show> list : Arrays.asList(completed, planned, watching)) {
+            for (Show show : list) {
+                showButtons.remove(show);
+                for (JButton button : showButtons) {
+                    if (button.getText() == show.getName()) {
+                        allShows.remove(button);
+                    }
+                }
+            }
+        }
+
+        allShows.setVisible(false);
+        allShows.setVisible(true);
+
     }
 
     private void viewShowAttributes(String show) {
@@ -444,9 +595,11 @@ public class ViewAnimePage implements ActionListener {
             jsonWriter.open();
             jsonWriter.write(myLibrary);
             jsonWriter.close();
-            System.out.println("Saved " + myLibrary.getTitle() + " to " + JSON_STORE);
+            JOptionPane.showMessageDialog(null, "Saved " + myLibrary.getTitle() + " to "
+                    + JSON_STORE, "Save Successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
+            JOptionPane.showMessageDialog(null, "Unable to save library",
+                    "Save Unsuccessful", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -458,13 +611,17 @@ public class ViewAnimePage implements ActionListener {
             updateOnLoadLibrary();
             allShows.setVisible(false);
             allShows.setVisible(true);
-            System.out.println("Loaded " + myLibrary.getTitle() + " from " + JSON_STORE);
+            JOptionPane.showMessageDialog(null, "Loaded " + myLibrary.getTitle() + " from "
+                    + JSON_STORE, "Load Successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
+            JOptionPane.showMessageDialog(null, "Unable to load library",
+                    "Load Unsuccessful", JOptionPane.WARNING_MESSAGE);
         }
     }
 
     private void updateOnLoadLibrary() {
+        allShows.removeAll();
+
         ArrayList<Show> completed = myLibrary.getCompleted();
         ArrayList<Show> planned = myLibrary.getPlanned();
         ArrayList<Show> dropped = myLibrary.getDropped();
@@ -475,6 +632,9 @@ public class ViewAnimePage implements ActionListener {
                 displayShow(show);
             }
         }
+
+        allShows.setVisible(false);
+        allShows.setVisible(true);
 
     }
 }

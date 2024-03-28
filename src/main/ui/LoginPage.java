@@ -1,15 +1,20 @@
 package ui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /*
     I used Bro Code's "Java Login System" tutorial to guide the creation of my login screen
     https://www.youtube.com/watch?v=Hiv3gwJC5kw
+    How to resize an image https://cloudinary.com/guides/bulk-image-resize/3-ways-to-resize-images-in-java#:~:text=You%20can%20resize%20an%20image,as%20an%20array%20of%20pixels.
  */
 
 public class LoginPage implements ActionListener {
@@ -26,6 +31,7 @@ public class LoginPage implements ActionListener {
     private JLabel messageLabel;
     private JLabel sakura;
     private JLabel title;
+
 
     //MODIFIES: this
     //EFFECTS: creates new Login Page with given login info
@@ -48,9 +54,16 @@ public class LoginPage implements ActionListener {
     }
 
     public void initSakuraPic() {
-        ImageIcon sakuraPic = new ImageIcon("src/main/ui/images/sakura.jpeg");
+//        try {
+//            bufferedImage = ImageIO.read(new File("src/main/ui/images/sakura_header.png"));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        Image image = bufferedImage.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
+//        //ImageIcon sakuraPic = new ImageIcon("src/main/ui/images/sakura.jpeg");
+        sakura.setIcon(new ImageIcon("src/main/ui/images/login_background.png"));
+        sakura.setFont(new Font("Serif", Font.BOLD, 20));
         sakura.setText("AniMosaic");
-        sakura.setIcon(sakuraPic);
     }
 
     // EFFECTS: creates GUI for login page with all fields
@@ -89,7 +102,7 @@ public class LoginPage implements ActionListener {
         resetButton.setBackground(Color.decode("#ffc8dd"));
         resetButton.addActionListener(this);
 
-        sakura.setBounds(50, 240, 299, 168);
+        sakura.setBounds(0, 0, 420, 420);
         title.setText("AniMosaic");
         title.setFont(new Font("Serif", Font.ITALIC, 30));
         title.setBounds(160,20,200,100);
