@@ -30,7 +30,7 @@ public class ViewAnimePage implements ActionListener {
     private static int screenHeight = (int) screenSize.getHeight();
     private static int screenWidth = (int) screenSize.getWidth();
 
-    private static final Dimension showButtonDimensions = new Dimension(200,300);
+    private static final Dimension showButtonDimensions = new Dimension(175,275);
     private static final Dimension sideBarPanelDimensions = new Dimension(200, screenHeight);
     private static final String JSON_STORE = "./data/library.json";
 
@@ -98,7 +98,6 @@ public class ViewAnimePage implements ActionListener {
     private ImageIcon resetIcon;
     private ImageIcon sakura;
 
-
     // JSON
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
@@ -107,6 +106,10 @@ public class ViewAnimePage implements ActionListener {
     private String[] categories = new String[4];
     private Library myLibrary;
 
+    // SCROLL PANE
+    private JScrollPane scrollShows;
+    private WrapLayout wrapLayout;
+
 
     // EFFECTS: Initializes all components of ViewAnimePage GUI
     public ViewAnimePage() {
@@ -114,7 +117,10 @@ public class ViewAnimePage implements ActionListener {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         showButtons = new ArrayList<>();
-        allShows = new JPanel(new FlowLayout(FlowLayout.LEFT, 30,30));
+        //allShows = new JPanel(new FlowLayout(FlowLayout.LEFT, 30,30));
+        wrapLayout = new WrapLayout(FlowLayout.LEFT, 30,30);
+
+        allShows = new JPanel(wrapLayout);
         sideBar = new JPanel(null);
         frame = new JFrame();
         menuBar = new JMenuBar();
@@ -141,7 +147,6 @@ public class ViewAnimePage implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
-        frame.add(allShows, BorderLayout.CENTER);
         frame.add(sideBar, BorderLayout.EAST);
 
         sakura = new ImageIcon(sakuraPath);
@@ -151,6 +156,11 @@ public class ViewAnimePage implements ActionListener {
 
         initMenuBar();
         addSideBar();
+
+        scrollShows = new JScrollPane(allShows);
+        scrollShows.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollShows.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        frame.add(scrollShows, BorderLayout.CENTER);
     }
 
     // MODIFIES: this
@@ -302,7 +312,6 @@ public class ViewAnimePage implements ActionListener {
         watching.setVisible(true);
         planned.setVisible(true);
         deleteShow.setVisible(true);
-
 
         sideBar.add(addShow);
         sideBar.add(deleteShow);
