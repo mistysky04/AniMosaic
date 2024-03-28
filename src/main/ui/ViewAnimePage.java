@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class ViewAnimePage implements ActionListener {
@@ -48,7 +50,7 @@ public class ViewAnimePage implements ActionListener {
     private static final String JSON_STORE = "./data/library.json";
     private String[] categories = new String[4];
 
-    private static Dimension dimension1 = new Dimension(200,200);
+    private static Dimension dimension1 = new Dimension(200,300);
 
     private Library myLibrary;
 
@@ -67,6 +69,11 @@ public class ViewAnimePage implements ActionListener {
         categories[3] = "dropped";
 
         showButtons = new ArrayList<>();
+
+        allShows = new JPanel(new FlowLayout(FlowLayout.LEFT, 30,30));
+        allShows.setVisible(true);
+
+        frame.add(allShows, BorderLayout.CENTER);
     }
 
     public void initFrame() {
@@ -83,12 +90,6 @@ public class ViewAnimePage implements ActionListener {
 
         ImageIcon image = new ImageIcon("src/main/ui/images/cherry_blossom_icon.png"); //create an imageIcon
         frame.setIconImage(image.getImage()); //change icon of frame
-
-
-        allShows = new JPanel(new FlowLayout(FlowLayout.LEFT, 30,30));
-
-        allShows.setVisible(true);
-        frame.add(allShows, BorderLayout.CENTER);
 
         initMenuBar();
     }
@@ -321,9 +322,26 @@ public class ViewAnimePage implements ActionListener {
     private void loadLibrary() {
         try {
             myLibrary = jsonReader.read();
+            updateOnLoadLibrary();
+            allShows.setVisible(false);
+            allShows.setVisible(true);
             System.out.println("Loaded " + myLibrary.getTitle() + " from " + JSON_STORE);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
+    }
+
+    private void updateOnLoadLibrary() {
+        ArrayList<Show> completed = myLibrary.getCompleted();
+        ArrayList<Show> planned = myLibrary.getPlanned();
+        ArrayList<Show> dropped = myLibrary.getDropped();
+        ArrayList<Show> watching = myLibrary.getWatching();
+
+        for (ArrayList<Show> list : Arrays.asList(completed, watching, planned, dropped)) {
+            for (Show show : list) {
+                displayShow(show);
+            }
+        }
+
     }
 }
