@@ -49,8 +49,6 @@ public class ViewAnimePage implements ActionListener {
     private static final String droppedIconPath = "src/main/ui/images/SM_PNG-10_resize.png";
     private static final String resetIconPath = "src/main/ui/images/SM_PNG-11_resize.png";
 
-
-
     // COLOUR PALETTE
     private static final String darkPurple = "#392f5a";
     private static final String darkPink = "#f092dd";
@@ -105,6 +103,10 @@ public class ViewAnimePage implements ActionListener {
     // LIBRARY ITEMS
     private String[] categories = new String[4];
     private Library myLibrary;
+    private ArrayList<Show> completedList;
+    private ArrayList<Show> watchingList;
+    private ArrayList<Show> plannedList;
+    private ArrayList<Show> droppedList;
 
     // SCROLL PANE
     private JScrollPane scrollShows;
@@ -336,18 +338,44 @@ public class ViewAnimePage implements ActionListener {
         } else if (e.getSource() == deleteShow) {
             deleteShow();
         } else if (e.getSource() == completed) {
-            filterComplete();
+            getLists(watchingList, plannedList, droppedList);
         } else if (e.getSource() == watching) {
-            filterWatching();
+            getLists(completedList, plannedList, droppedList);
         } else if (e.getSource() == planned) {
-            filterPlanned();
+            getLists(completedList, watchingList, droppedList);
         } else if (e.getSource() == dropped) {
-            filterDropped();
+            getLists(completedList, plannedList, watchingList);
         } else if (e.getSource() == reset) {
             updateOnLoadLibrary();
         } else {
             showInfo(e);
         }
+    }
+
+    public void getLists(ArrayList<Show> list1, ArrayList<Show> list2, ArrayList<Show> list3) {
+        completedList = myLibrary.getCompleted();
+        watchingList = myLibrary.getWatching();
+        plannedList = myLibrary.getPlanned();
+        droppedList = myLibrary.getDropped();
+
+        filterShows(list1, list2, list3);
+    }
+
+    public void filterShows(ArrayList<Show> category1, ArrayList<Show> category2, ArrayList<Show> category3) {
+
+        for (ArrayList<Show> list : Arrays.asList(category1, category2, category3)) {
+            for (Show show : list) {
+                showButtons.remove(show);
+                for (JButton button : showButtons) {
+                    if (button.getText() == show.getName()) {
+                        allShows.remove(button);
+                    }
+                }
+            }
+        }
+
+        allShows.setVisible(false);
+        allShows.setVisible(true);
     }
 
     public void showInfo(ActionEvent e) {
@@ -356,88 +384,6 @@ public class ViewAnimePage implements ActionListener {
             viewShowAttributes(show);
             return;
         }
-    }
-
-    public void filterComplete() {
-        ArrayList<Show> watching = myLibrary.getWatching();
-        ArrayList<Show> planned = myLibrary.getPlanned();
-        ArrayList<Show> dropped = myLibrary.getDropped();
-
-        for (ArrayList<Show> list : Arrays.asList(watching, planned, dropped)) {
-            for (Show show : list) {
-                showButtons.remove(show);
-                for (JButton button : showButtons) {
-                    if (button.getText() == show.getName()) {
-                        allShows.remove(button);
-                    }
-                }
-            }
-        }
-
-        allShows.setVisible(false);
-        allShows.setVisible(true);
-    }
-
-    public void filterWatching() {
-        ArrayList<Show> completed = myLibrary.getCompleted();
-        ArrayList<Show> planned = myLibrary.getPlanned();
-        ArrayList<Show> dropped = myLibrary.getDropped();
-
-        for (ArrayList<Show> list : Arrays.asList(completed, planned, dropped)) {
-            for (Show show : list) {
-                showButtons.remove(show);
-                for (JButton button : showButtons) {
-                    if (button.getText() == show.getName()) {
-                        allShows.remove(button);
-                    }
-                }
-            }
-        }
-
-        allShows.setVisible(false);
-        allShows.setVisible(true);
-
-    }
-
-    public void filterPlanned() {
-        ArrayList<Show> completed = myLibrary.getCompleted();
-        ArrayList<Show> watching = myLibrary.getWatching();
-        ArrayList<Show> dropped = myLibrary.getDropped();
-
-        for (ArrayList<Show> list : Arrays.asList(completed, watching, dropped)) {
-            for (Show show : list) {
-                showButtons.remove(show);
-                for (JButton button : showButtons) {
-                    if (button.getText() == show.getName()) {
-                        allShows.remove(button);
-                    }
-                }
-            }
-        }
-
-        allShows.setVisible(false);
-        allShows.setVisible(true);
-    }
-
-    public void filterDropped() {
-        ArrayList<Show> completed = myLibrary.getCompleted();
-        ArrayList<Show> planned = myLibrary.getPlanned();
-        ArrayList<Show> watching = myLibrary.getWatching();
-
-        for (ArrayList<Show> list : Arrays.asList(completed, planned, watching)) {
-            for (Show show : list) {
-                showButtons.remove(show);
-                for (JButton button : showButtons) {
-                    if (button.getText() == show.getName()) {
-                        allShows.remove(button);
-                    }
-                }
-            }
-        }
-
-        allShows.setVisible(false);
-        allShows.setVisible(true);
-
     }
 
     private void viewShowAttributes(String show) {
