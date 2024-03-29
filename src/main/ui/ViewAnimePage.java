@@ -103,6 +103,7 @@ public class ViewAnimePage implements ActionListener {
 
     // LIBRARY ITEMS
     private String[] categories = new String[4];
+    private String[] viewShowButtons = new String[5];
     private Library myLibrary;
     private ArrayList<Show> completedList;
     private ArrayList<Show> watchingList;
@@ -132,6 +133,12 @@ public class ViewAnimePage implements ActionListener {
         categories[1] = "watching";
         categories[2] = "planned";
         categories[3] = "dropped";
+
+        viewShowButtons[0] = "Edit Comments";
+        viewShowButtons[1] = "OK";
+        viewShowButtons[2] = "Transfer Show";
+        viewShowButtons[3] = "+ eps";
+        viewShowButtons[4] = "- eps";
 
         initFrame();
 
@@ -207,6 +214,7 @@ public class ViewAnimePage implements ActionListener {
         saveFile.setIcon(saveIcon);
         loadFile.setIcon(loadIcon);
     }
+
 
     // MODIFIES: this
     // EFFECTS: sets SideBar on side of frame
@@ -380,11 +388,14 @@ public class ViewAnimePage implements ActionListener {
     }
 
     public void showInfo(ActionEvent e) {
-        for (JButton button : showButtons) {
-            String show = e.getActionCommand();
-            viewShowAttributes(show);
-            return;
-        }
+        String show = e.getActionCommand();
+        viewShowAttributes(show);
+
+//        for (JButton button : showButtons) {
+//            String show = e.getActionCommand();
+//            viewShowAttributes(show);
+//            return;
+//        }
     }
 
     private void viewShowAttributes(String show) {

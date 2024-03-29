@@ -32,6 +32,9 @@ public class LoginPage implements ActionListener {
     private JLabel sakura;
     private JLabel title;
 
+    private BufferedImage sakuraBackgroundImage;
+    private ImagePanel backgroundPanel;
+
 
     //MODIFIES: this
     //EFFECTS: creates new Login Page with given login info
@@ -49,28 +52,30 @@ public class LoginPage implements ActionListener {
         sakura = new JLabel();
         title = new JLabel();
 
-        initGui();
         initSakuraPic();
+        backgroundPanel = new ImagePanel(sakuraBackgroundImage);
+
+
+        //initSakuraPic();
+        initGui();
     }
 
     public void initSakuraPic() {
-//        try {
-//            bufferedImage = ImageIO.read(new File("src/main/ui/images/sakura_header.png"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Image image = bufferedImage.getScaledInstance(300, 150, Image.SCALE_SMOOTH);
-//        //ImageIcon sakuraPic = new ImageIcon("src/main/ui/images/sakura.jpeg");
-        sakura.setIcon(new ImageIcon("src/main/ui/images/login_background.png"));
-        sakura.setFont(new Font("Serif", Font.BOLD, 20));
-        sakura.setText("AniMosaic");
+        try {
+            sakuraBackgroundImage = ImageIO.read(new File("./data/images/"
+                    + "full_cherry_blossom_background.png"));
+        } catch (IOException e) {
+            System.out.println("error loading image");
+        }
+
+        //sakura.setIcon(sakuraBackgroundImage);
     }
 
     // EFFECTS: creates GUI for login page with all fields
     public void initGui() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("AniMosaic"); //sets title of frame
-        ImageIcon image = new ImageIcon("src/main/ui/images/cherry_blossom_icon.png"); //create an imageIcon
+        ImageIcon image = new ImageIcon("./data/images/cherry_blossom_icon.png"); //create an imageIcon
         frame.setIconImage(image.getImage()); //change icon of frame
         frame.setSize(420,420);
         frame.setLayout(null);
@@ -102,7 +107,8 @@ public class LoginPage implements ActionListener {
         resetButton.setBackground(Color.decode("#ffc8dd"));
         resetButton.addActionListener(this);
 
-        sakura.setBounds(0, 0, 420, 420);
+        //sakura.setBounds(0, 0, 420, 420);
+        backgroundPanel.setBounds(0,0,420,420);
         title.setText("AniMosaic");
         title.setFont(new Font("Serif", Font.ITALIC, 30));
         title.setBounds(160,20,200,100);
@@ -118,7 +124,8 @@ public class LoginPage implements ActionListener {
         frame.add(userPasswordField);
         frame.add(loginButton);
         frame.add(resetButton);
-        frame.add(sakura);
+        //frame.add(sakura);
+        frame.add(backgroundPanel);
         frame.add(title);
     }
 
