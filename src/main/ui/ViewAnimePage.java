@@ -15,16 +15,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/* To help me store screenHeight as int https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
-How I learned to calculated screenHeight for use in dimensions https://alvinalexander.com/blog/post/jfc-swing/
-    how-determine-get-screen-size-java-swing-app/#:~:text=Once%20you%20have%20the%20screen,getWidth()%3B
+/*
 
-    Checkbox icons <a href="https://www.flaticon.com/free-icons/okay" title="okay icons">Okay icons created by Bharat Icons - Flaticon</a>
+    CITATIONS:
+    1) Determining how to get screenSize and height, as well as typecast
+    https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
+    https://alvinalexander.com/blog/post/jfc-swing/how-determine-get-
+    screen-size-java-swing-app/#:~:text=Once%20you%20have%20the%20screen,getWidth()%3B
 
-    How to get custom buttons https://stackoverflow.com/questions/14591089/joptionpane-passing-custom-buttons
+    2) Making custom buttons for JOptionPane
+    https://stackoverflow.com/questions/14591089/joptionpane-passing-custom-buttons
+
+    3) Understanding general structure and function of Java Swing (almost everything was learnt from this vide)
+    https://www.youtube.com/watch?v=Kmgo00avvEw&t=7993s
+
+    4)
 
 */
 
+// GUI of main application, showing all added anime and its information
 public class ViewAnimePage implements ActionListener {
 
     // CONSTANTS
@@ -37,13 +46,10 @@ public class ViewAnimePage implements ActionListener {
 
     // IMAGE PATHS
     private static final String sakuraPath = "./data/images/cherry_blossom_icon.png";
-
     private static final String saveIconPath = "./data/images/SM_PNG-01_resize.png";
     private static final String loadIconPath = "./data/images/SM_PNG-04_resize.png";
-
     private static final String addShowIconPath = "./data/images/SM_PNG-05_resize.png";
     private static final String deleteShowIconPath = "./data/images/SM_PNG-06_resize.png";
-
     private static final String completedIconPath = "./data/images/SM_PNG-07_resize.png";
     private static final String watchingIconPath = "./data/images/SM_PNG-08_resize.png";
     private static final String plannedIconPath = "./data/images/SM_PNG-09_resize.png";
@@ -124,10 +130,11 @@ public class ViewAnimePage implements ActionListener {
         wrapLayout = new WrapLayout(FlowLayout.LEFT, 30,30);
 
         allShows = new JPanel(wrapLayout);
+        scrollShows = new JScrollPane(allShows);
         sideBar = new JPanel(null);
         frame = new JFrame();
         menuBar = new JMenuBar();
-        sakura = new ImageIcon();
+        sakura = new ImageIcon(sakuraPath);
 
         categories[0] = "completed";
         categories[1] = "watching";
@@ -147,7 +154,7 @@ public class ViewAnimePage implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes all aspects of overall ViewAnimePage frame
+    // EFFECTS: initializes all aspects of ViewAnimePage frame and adds components to main frame
     public void initFrame() {
         frame.setLayout(new BorderLayout());
         frame.setBackground(Color.WHITE);
@@ -155,30 +162,22 @@ public class ViewAnimePage implements ActionListener {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-
-        frame.add(sideBar, BorderLayout.EAST);
-
-        sakura = new ImageIcon(sakuraPath);
         frame.setIconImage(sakura.getImage());
-
         frame.setVisible(true);
+        frame.setJMenuBar(menuBar);
 
         initMenuBar();
         addSideBar();
 
-        scrollShows = new JScrollPane(allShows);
         scrollShows.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollShows.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         frame.add(scrollShows, BorderLayout.CENTER);
+        frame.add(sideBar, BorderLayout.EAST);
     }
 
-    // MODIFIES: this
     // EFFECTS: initializes all components of JMenuBar
     public void initMenuBar() {
-        frame.setJMenuBar(menuBar);
-
         file = new JMenu("File");
-
         saveFile = new JMenuItem("Save Library");
         loadFile = new JMenuItem("Load Library");
 
@@ -215,9 +214,7 @@ public class ViewAnimePage implements ActionListener {
         loadFile.setIcon(loadIcon);
     }
 
-
-    // MODIFIES: this
-    // EFFECTS: sets SideBar on side of frame
+    // EFFECTS: sets size and border type of sideBar
     public void addSideBar() {
         sideBar.setPreferredSize(sideBarPanelDimensions);
         sideBar.setBorder(BorderFactory.createEtchedBorder());
@@ -225,7 +222,6 @@ public class ViewAnimePage implements ActionListener {
         initSideBarComponents();
     }
 
-    // MODIFIES: this
     // EFFECTS: Initializes sidebar components
     public void initSideBarComponents() {
         addShow = new JButton("ADD");
@@ -253,8 +249,7 @@ public class ViewAnimePage implements ActionListener {
         initRadioButtonsForFilter();
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets all necessary aspects of sidebar components
+    // EFFECTS: sets all necessary aspects of sidebar components and adds ActionListener
     public void setSideBarComponents() {
         addShow.setFocusable(false);
         addShow.setBackground(Color.decode(darkPurple));
@@ -274,6 +269,7 @@ public class ViewAnimePage implements ActionListener {
         panelPic2.setBounds(80,300, panelPic2.getIcon().getIconWidth(), panelPic2.getIcon().getIconHeight());
     }
 
+    // EFFECTS: filter buttons added to button group
     public void addButtonsToGroup() {
         filters.add(completed);
         filters.add(watching);
@@ -282,8 +278,7 @@ public class ViewAnimePage implements ActionListener {
         filters.add(reset);
     }
 
-    // MODIFIES: this
-    // EFFECTS: updates radio buttons
+    // EFFECTS: sets specified aspects of filter radiobuttons, adds action listener to all
     public void initRadioButtonsForFilter() {
         completed.setBounds(25, 400, 150, 50);
         completed.setFont(new Font("Serif", Font.ITALIC, 14));
@@ -312,17 +307,8 @@ public class ViewAnimePage implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds sidebar components to the side bar
+    // EFFECTS: adds all sidebar components to sidebar
     public void addSideBarComponents() {
-        addShow.setVisible(true);
-        deleteShow.setVisible(true);
-        panelPic1.setVisible(true);
-        panelPic2.setVisible(true);
-        completed.setVisible(true);
-        watching.setVisible(true);
-        planned.setVisible(true);
-        deleteShow.setVisible(true);
-
         sideBar.add(addShow);
         sideBar.add(deleteShow);
         sideBar.add(panelPic1);
@@ -335,6 +321,7 @@ public class ViewAnimePage implements ActionListener {
         sideBar.add(reset);
     }
 
+    // EFFECTS: determines actions when certain buttons on frame/panels are clicked
     @Override
     @SuppressWarnings("methodlength")
     public void actionPerformed(ActionEvent e) {
@@ -361,6 +348,8 @@ public class ViewAnimePage implements ActionListener {
         }
     }
 
+    // REQUIRES: 3 lists of type Show
+    // EFFECTS: saves all shows from each watch category in unique variables
     public void getLists(ArrayList<Show> list1, ArrayList<Show> list2, ArrayList<Show> list3) {
         completedList = myLibrary.getCompleted();
         watchingList = myLibrary.getWatching();
@@ -370,6 +359,9 @@ public class ViewAnimePage implements ActionListener {
         filterShows(list1, list2, list3);
     }
 
+    // REQUIRES: 3 lists of type Show
+    // MODIFIES: this
+    // EFFECTS: removes buttons of shows from specified categories in showButtons, then removes buttons from GUI itself
     public void filterShows(ArrayList<Show> category1, ArrayList<Show> category2, ArrayList<Show> category3) {
 
         for (ArrayList<Show> list : Arrays.asList(category1, category2, category3)) {
@@ -387,17 +379,14 @@ public class ViewAnimePage implements ActionListener {
         allShows.setVisible(true);
     }
 
+    // EFFECTS: determines which show button was clicked
     public void showInfo(ActionEvent e) {
         String show = e.getActionCommand();
         viewShowAttributes(show);
-
-//        for (JButton button : showButtons) {
-//            String show = e.getActionCommand();
-//            viewShowAttributes(show);
-//            return;
-//        }
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates message dialog with information of clicked show
     private void viewShowAttributes(String show) {
         Show givenShow = myLibrary.findShow(show);
 
@@ -438,6 +427,8 @@ public class ViewAnimePage implements ActionListener {
         displayShow(newShow);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Adds button of show to GUI and provides specific colour depending on specified watch category
     public void displayShow(Show show) {
         JButton newShow = new JButton(show.getName());
         newShow.addActionListener(this);
@@ -490,6 +481,7 @@ public class ViewAnimePage implements ActionListener {
         return ranking;
     }
 
+
     // EFFECTS: prompts user to continue giving current episode number until it satisfies condition
     private int currentEpCheck(int totalEp) {
         int currentEp;
@@ -507,7 +499,7 @@ public class ViewAnimePage implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: deletes a show from the library
+    // EFFECTS: deletes a show from the library & removes its corresponding button both from showButtons and the GUI
     public void deleteShow() {
         String showName = JOptionPane.showInputDialog("Please select from the following shows to remove from your "
                 + "library: " + getTotalShowList());
@@ -586,6 +578,8 @@ public class ViewAnimePage implements ActionListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates the gui to reflect loaded information
     private void updateOnLoadLibrary() {
         allShows.removeAll();
 

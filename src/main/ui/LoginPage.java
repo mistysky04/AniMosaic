@@ -12,71 +12,90 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
-    I used Bro Code's "Java Login System" tutorial to guide the creation of my login screen
+    CITATIONS:
+    1) Bro Code "Java Login System" tutorial --> guided creation of login page
     https://www.youtube.com/watch?v=Hiv3gwJC5kw
-    How to resize an image https://cloudinary.com/guides/bulk-image-resize/3-ways-to-resize-images-in-java#:~:text=You%20can%20resize%20an%20image,as%20an%20array%20of%20pixels.
+
+    2) Resizing image information https://cloudinary.com/guides/bulk-image-resize/3-ways-to-resize-images-in-java#:~
+    :text=You%20can%20resize%20an%20image,as%20an%20array%20of%20pixels.
+
+    3) Using BufferedImage to load image and utilize Graphics 2D
+    https://stackoverflow.com/questions/53291767/draw-image-2d-graphics
+
+    4) ImagePanel class help from Billy Li --> makes imported images much clearer
+     https://edstem.org/us/courses/50358/discussion/4648716
  */
 
+// LoginPage creates the GUI for a login page, prompting the user for their userID and Password
 public class LoginPage implements ActionListener {
 
+    // CONSTANTS
+    // IMAGE PATHS
+    private static final String sakuraBackgroundImagePath = "./data/images/full_cherry_blossom_background.png";
+    private static final String sakuraIconImagePath = "./data/images/cherry_blossom_icon.png";
+
+    // LOGIN
     private Map<String, String> loginInfo;
 
+    // FRAMES
     private JFrame frame;
+
+    // BUTTONS
     private JButton loginButton;
     private JButton resetButton;
+
+    // TEXT/PASSWORD FIELDS
     private JTextField userIDField;
     private JPasswordField userPasswordField;
+
+    // JLABELS
     private JLabel userId;
     private JLabel userPassword;
     private JLabel messageLabel;
-    private JLabel sakura;
     private JLabel title;
 
-    private BufferedImage sakuraBackgroundImage;
-    private ImagePanel backgroundPanel;
 
+    // IMAGES
+    private BufferedImage sakuraBackgroundImage;
+    private LoginPageBackgroundImagePanel backgroundPanel;
+    private ImageIcon sakuraIcon;
 
     //MODIFIES: this
     //EFFECTS: creates new Login Page with given login info
     // Sets up GUI for login and Font for use
     public LoginPage(Map<String, String> originalLoginInfo) {
         loginInfo = new HashMap<String, String>(originalLoginInfo);
+
         frame = new JFrame();
+
         loginButton = new JButton("Login");
         resetButton = new JButton("Reset");
+
         userIDField = new JTextField();
         userPasswordField = new JPasswordField();
+
         userId = new JLabel("userID:");
         userPassword = new JLabel("Password: ");
-        messageLabel = new JLabel(); // in case of error with input
-        sakura = new JLabel();
         title = new JLabel();
+        messageLabel = new JLabel();
 
-        initSakuraPic();
-        backgroundPanel = new ImagePanel(sakuraBackgroundImage);
-
-
-        //initSakuraPic();
-        initGui();
-    }
-
-    public void initSakuraPic() {
+        sakuraIcon = new ImageIcon(sakuraIconImagePath);
         try {
-            sakuraBackgroundImage = ImageIO.read(new File("./data/images/"
-                    + "full_cherry_blossom_background.png"));
+            sakuraBackgroundImage = ImageIO.read(new File(sakuraBackgroundImagePath));
         } catch (IOException e) {
             System.out.println("error loading image");
         }
+        backgroundPanel = new LoginPageBackgroundImagePanel(sakuraBackgroundImage);
 
-        //sakura.setIcon(sakuraBackgroundImage);
+        initGui();
     }
 
-    // EFFECTS: creates GUI for login page with all fields
+    // MODIFIES: this
+    // EFFECTS: creates GUI for login page with specified components and attributes
     public void initGui() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("AniMosaic"); //sets title of frame
-        ImageIcon image = new ImageIcon("./data/images/cherry_blossom_icon.png"); //create an imageIcon
-        frame.setIconImage(image.getImage()); //change icon of frame
+        frame.setIconImage(sakuraIcon.getImage()); //change icon of frame
         frame.setSize(420,420);
         frame.setLayout(null);
         frame.setVisible(true);
@@ -87,6 +106,7 @@ public class LoginPage implements ActionListener {
     }
 
 
+    // EFFECTS: sets aspects of login page components, also adds ActionListeners to all buttons
     public void initComponents() {
         userId.setBounds(50,100,75,25);
         userPassword.setBounds(50,150,75,25);
@@ -107,15 +127,11 @@ public class LoginPage implements ActionListener {
         resetButton.setBackground(Color.decode("#ffc8dd"));
         resetButton.addActionListener(this);
 
-        //sakura.setBounds(0, 0, 420, 420);
         backgroundPanel.setBounds(0,0,420,420);
-        title.setText("AniMosaic");
-        title.setFont(new Font("Serif", Font.ITALIC, 30));
-        title.setBounds(160,20,200,100);
-
     }
 
-    //EFFECTS: adds all components to frame
+    // MODIFIES: this
+    // EFFECTS: adds all components to frame
     public void addToFrame() {
         frame.add(userId);
         frame.add(userPassword);
@@ -124,18 +140,15 @@ public class LoginPage implements ActionListener {
         frame.add(userPasswordField);
         frame.add(loginButton);
         frame.add(resetButton);
-        //frame.add(sakura);
         frame.add(backgroundPanel);
         frame.add(title);
     }
 
     //MODIFIES: this
-    //EFFECTS: clears userID and passwordFields
+    //EFFECTS: clears page if resetButton pressed, checks inputted information if loginButton pressed
+    // logs user in if information correct, otherwise prompts user to retry
     @Override
     public void actionPerformed(ActionEvent e) {
-        // "getSource()" gets object on which event is occuring i.e.
-        // if the source object is the "reset button" --> someone CLICKING this button
-        // then do xxxxxxxx
         if (e.getSource() == resetButton) {
             userIDField.setText("");
             userPasswordField.setText("");
@@ -149,7 +162,9 @@ public class LoginPage implements ActionListener {
                 if (loginInfo.get(userId).equals(password)) {
                     messageLabel.setForeground(Color.decode("#bbe784"));
                     messageLabel.setText("Login successful");
+
                     new ViewAnimePage();
+
                 } else {
                     messageLabel.setForeground(Color.decode("#c61e09"));
                     messageLabel.setText("Wrong Password");

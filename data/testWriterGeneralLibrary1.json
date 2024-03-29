@@ -1,0 +1,35 @@
+{
+    "dropped": [{
+        "totalEp": 63,
+        "comments": "",
+        "currentEp": 30,
+        "name": "Fruits Basket",
+        "genre": "shoujo",
+        "ranking": 5
+    }],
+    "completed": [{
+        "totalEp": 25,
+        "comments": "",
+        "currentEp": 25,
+        "name": "Noragami",
+        "genre": "shounen",
+        "ranking": 5
+    }],
+    "planned": [{
+        "totalEp": 25,
+        "comments": "",
+        "currentEp": 0,
+        "name": "Promised Neverland",
+        "genre": "thriller",
+        "ranking": 4
+    }],
+    "title": "My Library",
+    "watching": [{
+        "totalEp": 500,
+        "comments": "",
+        "currentEp": 230,
+        "name": "Naruto",
+        "genre": "shounen",
+        "ranking": 4
+    }]
+}

@@ -10,20 +10,11 @@ import java.io.FileNotFoundException;
 import java.awt.GraphicsEnvironment;
 
 
-// Initializes AniMosaic()
+// Initializes LoginPage, which then calls ViewAnimePage if correct login/password is given
 public class Main {
     public static void main(String[] args) {
-
         IdAndPasswords idAndPasswords = new IdAndPasswords(); // instance of ID and Passwords class in model
         new LoginPage(idAndPasswords.getLoginInfo());
-
-        //new AniMosaicGui();
-
-        //        try {
-        //            new AniMosaic();
-        //        } catch (FileNotFoundException e) {
-        //            System.out.println("Unable to run application: file not found");
-        //        }
     }
 
 }

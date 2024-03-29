@@ -101,7 +101,7 @@ public class JsonReader {
         int totalEp = jsonObject.getInt("totalEp");
         int currentEp = jsonObject.getInt("currentEp");
 
-        Show show = new Show(name, genre, comments, ranking, totalEp, currentEp);
+        Show show = new Show(name, genre, comments, ranking, currentEp, totalEp);
         lb.addToList(show, "completed");
     }
 
@@ -115,7 +115,7 @@ public class JsonReader {
         int totalEp = jsonObject.getInt("totalEp");
         int currentEp = jsonObject.getInt("currentEp");
 
-        Show show = new Show(name, genre, comments, ranking, totalEp, currentEp);
+        Show show = new Show(name, genre, comments, ranking, currentEp, totalEp);
         lb.addToList(show, "watching");
     }
 
@@ -129,7 +129,7 @@ public class JsonReader {
         int totalEp = jsonObject.getInt("totalEp");
         int currentEp = jsonObject.getInt("currentEp");
 
-        Show show = new Show(name, genre, comments, ranking, totalEp, currentEp);
+        Show show = new Show(name, genre, comments, ranking, currentEp, totalEp);
         lb.addToList(show, "planned");
     }
 
@@ -143,7 +143,7 @@ public class JsonReader {
         int totalEp = jsonObject.getInt("totalEp");
         int currentEp = jsonObject.getInt("currentEp");
 
-        Show show = new Show(name, genre, comments, ranking, totalEp, currentEp);
+        Show show = new Show(name, genre, comments, ranking, currentEp, totalEp);
         lb.addToList(show, "dropped");
     }
 }

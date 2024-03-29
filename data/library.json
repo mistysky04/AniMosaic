@@ -1,0 +1,123 @@
+{
+    "dropped": [
+        {
+            "totalEp": 25,
+            "comments": "",
+            "currentEp": 12,
+            "name": "Dororo",
+            "genre": "Shounen",
+            "ranking": 6
+        },
+        {
+            "totalEp": 100,
+            "comments": "",
+            "currentEp": 40,
+            "name": "Boruto",
+            "genre": "Shounen",
+            "ranking": 6
+        }
+    ],
+    "completed": [
+        {
+            "totalEp": 50,
+            "comments": "",
+            "currentEp": 50,
+            "name": "Black Butler",
+            "genre": "Shounen",
+            "ranking": 10
+        },
+        {
+            "totalEp": 25,
+            "comments": "",
+            "currentEp": 25,
+            "name": "No.6",
+            "genre": "Seinen",
+            "ranking": 9
+        },
+        {
+            "totalEp": 25,
+            "comments": "",
+            "currentEp": 25,
+            "name": "Yuri On Ice",
+            "genre": "Sports",
+            "ranking": 10
+        },
+        {
+            "totalEp": 176,
+            "comments": "",
+            "currentEp": 176,
+            "name": "Hunter x Hunter",
+            "genre": "Shounen",
+            "ranking": 10
+        },
+        {
+            "totalEp": 50,
+            "comments": "",
+            "currentEp": 50,
+            "name": "Heartcatch Precure",
+            "genre": "Childrens",
+            "ranking": 7
+        },
+        {
+            "totalEp": 25,
+            "comments": "",
+            "currentEp": 25,
+            "name": "Sk8",
+            "genre": "Sports",
+            "ranking": 10
+        }
+    ],
+    "planned": [
+        {
+            "totalEp": 100,
+            "comments": "",
+            "currentEp": 0,
+            "name": "Cardcaptor Sakura",
+            "genre": "Shoujo",
+            "ranking": 10
+        },
+        {
+            "totalEp": 100,
+            "comments": "",
+            "currentEp": 0,
+            "name": "Nozaki-Kun",
+            "genre": "Shoujo",
+            "ranking": 0
+        },
+        {
+            "totalEp": 25,
+            "comments": "",
+            "currentEp": 0,
+            "name": "Beastars",
+            "genre": "Slice Of Life",
+            "ranking": 0
+        }
+    ],
+    "title": "My Library",
+    "watching": [
+        {
+            "totalEp": 25,
+            "comments": "",
+            "currentEp": 7,
+            "name": "Haikyuu",
+            "genre": "Sports",
+            "ranking": 8
+        },
+        {
+            "totalEp": 25,
+            "comments": "",
+            "currentEp": 12,
+            "name": "Yowamushi Pedal",
+            "genre": "Sports",
+            "ranking": 7
+        },
+        {
+            "totalEp": 1000,
+            "comments": "",
+            "currentEp": 23,
+            "name": "Gintama",
+            "genre": "Comedy",
+            "ranking": 8
+        }
+    ]
+}

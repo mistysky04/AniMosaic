@@ -1,12 +1,19 @@
-/*
-Wrap Layout obtained from https://github.com/tips4java/tips4java/blob/main/source/WrapLayout.java
- */
-
 package ui;
 
 import java.awt.*;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+
+/*
+    CITATIONS:
+    1) Wrap Layout is a subclass of FlowLayout that helps components in flowlayout wrap vertically once bounds are
+    reached --> helped with creation of vertical scrollbar
+    https://github.com/tips4java/tips4java/blob/main/source/WrapLayout.java
+
+    *NOTE TO TAs: none of the code or comments below have been modified from where it was copied, this is the code
+    and comments of the original creator of WrapLayout
+
+ */
 
 /**
  *  FlowLayout subclass that fully supports wrapping of components.

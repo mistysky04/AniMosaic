@@ -70,12 +70,12 @@ class JsonWriterTest extends JsonTest {
             lb.addToList(s2, "dropped");
             lb.addToList(s3, "planned");
             lb.addToList(s4, "completed");
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralLibrary.json");
+            JsonWriter writer = new JsonWriter("./data/testWriterGeneralLibrary1.json");
             writer.open();
             writer.write(lb);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralLibrary.json");
+            JsonReader reader = new JsonReader("./data/testWriterGeneralLibrary1.json");
             lb = reader.read();
             assertEquals("My Library", lb.getTitle());
             List<Show> completedShows = lb.getCompleted();
