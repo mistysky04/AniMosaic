@@ -83,7 +83,7 @@ public class WrapLayout extends FlowLayout {
      * @param preferred should preferred size be calculated
      * @return the dimension to layout the target container
      */
-    @SuppressWarnings("checkstyle:MethodLength")
+    @SuppressWarnings("methodlength")
     private Dimension layoutSize(Container target, boolean preferred) {
         synchronized (target.getTreeLock()) {
             //  Each row must fit with the width allocated to the containter.

@@ -336,7 +336,7 @@ public class ViewAnimePage implements ActionListener {
     }
 
     @Override
-    @SuppressWarnings("checkstyle:MethodLength")
+    @SuppressWarnings("methodlength")
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loadFile) {
             loadLibrary();
