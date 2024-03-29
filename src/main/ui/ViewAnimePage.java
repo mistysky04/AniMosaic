@@ -29,8 +29,6 @@ import java.util.List;
     3) Understanding general structure and function of Java Swing (almost everything was learnt from this vide)
     https://www.youtube.com/watch?v=Kmgo00avvEw&t=7993s
 
-    4)
-
 */
 
 // GUI of main application, showing all added anime and its information

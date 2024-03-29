@@ -29,3 +29,20 @@ project for me!
 - As a user, I want to be able to delete shows from either category if I'm no longer interested in them or I stop 
 watching
 - As a user, I want the option to add pictures of inputted shows to use as the cover photo in mosaic mode
+
+
+## Instructions for Grader
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by logging into 
+  the application where **userId = "Hedie"** and **password = "1234"** (neither have quotation marks)
+- When the main GUI loads, click the **"ADD"** button on the righthand side and follow the prompts to add the X 
+  (show) to the Y (myLibrary)
+- You can generate the second required action related to the user story "adding multiple Xs to a Y" by clicking on 
+  any of the buttons including **"completed"** **"watching"** **"planned"** or **"dropped"**, as these will filter 
+  all the shows that are NOT in any of the clicked categories i.e clicking on "completed" will ONLY show you the 
+  completed shows (click **reset** at the bottom to display all shows in MyLibrary between each filter)
+- You can locate my visual component by looking just about anywhere, the easiest part to see is on my login screen 
+  where I GOT THE PICTURE TO SHOW UP IN HD WITH GRAPHICS 2D!!!!!!
+- You can save the state of my application by clicking **"File"** on the menuBar at the top of the main screen, then 
+  clicking **"Save"**
+- You can reload the state of my application by clicking **"File"** on the menuBar at the top of the main screen, 
+  then clicking **"Load"**
