@@ -1,5 +1,7 @@
 package ui;
 
+import model.Event;
+import model.EventLog;
 import model.Library;
 import model.Show;
 import persistence.JsonReader;
@@ -9,11 +11,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 /*
 
@@ -32,7 +38,7 @@ import java.util.List;
 */
 
 // GUI of main application, showing all added anime and its information
-public class ViewAnimePage implements ActionListener {
+public class ViewAnimePage extends JFrame implements ActionListener, WindowListener {
 
     // CONSTANTS
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -62,7 +68,6 @@ public class ViewAnimePage implements ActionListener {
     private static final String lightGreen = "#a8c7bb";
 
     // PANELS & FRAMES
-    private JFrame frame;
     private JPanel allShows;
     private JPanel sideBar;
 
@@ -130,7 +135,6 @@ public class ViewAnimePage implements ActionListener {
         allShows = new JPanel(wrapLayout);
         scrollShows = new JScrollPane(allShows);
         sideBar = new JPanel(null);
-        frame = new JFrame();
         menuBar = new JMenuBar();
         sakura = new ImageIcon(sakuraPath);
 
@@ -154,23 +158,25 @@ public class ViewAnimePage implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initializes all aspects of ViewAnimePage frame and adds components to main frame
     public void initFrame() {
-        frame.setLayout(new BorderLayout());
-        frame.setBackground(Color.WHITE);
-        frame.setTitle("AniMosaic");
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setIconImage(sakura.getImage());
-        frame.setVisible(true);
-        frame.setJMenuBar(menuBar);
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.WHITE);
+        this.setTitle("AniMosaic");
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setResizable(true);
+        this.setIconImage(sakura.getImage());
+        this.setVisible(true);
+        this.setJMenuBar(menuBar);
 
         initMenuBar();
         addSideBar();
 
         scrollShows.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollShows.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        frame.add(scrollShows, BorderLayout.CENTER);
-        frame.add(sideBar, BorderLayout.EAST);
+        this.add(scrollShows, BorderLayout.CENTER);
+        this.add(sideBar, BorderLayout.EAST);
+
+        addWindowListener(this);
     }
 
     // EFFECTS: initializes all components of JMenuBar
@@ -194,7 +200,7 @@ public class ViewAnimePage implements ActionListener {
         saveFile.addActionListener(this);
         loadFile.addActionListener(this);
 
-        frame.setVisible(true);
+        this.setVisible(true);
     }
 
     // EFFECTS: initializes ImageIcons for all JMenuItems
@@ -595,5 +601,48 @@ public class ViewAnimePage implements ActionListener {
         allShows.setVisible(false);
         allShows.setVisible(true);
 
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        // Stub
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        EventLog el = EventLog.getInstance();
+        for (Event next: el) {
+            System.out.println(next.getDescription());
+        }
+
+        System.exit(0);
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+//        EventLog el = EventLog.getInstance();
+//        for (Event next: el) {
+//            System.out.println(next.getDescription());
+//        }
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        // Stub
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        // Stub
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        // Stub
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        // Stub
     }
 }

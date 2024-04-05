@@ -42,6 +42,8 @@ public class Library implements Writable {
         } else {
             dropped.add(show);
         }
+
+        EventLog.getInstance().logEvent(new Event("Added " +  show.getName() + " to " + category));
     }
 
     /*
@@ -53,6 +55,7 @@ public class Library implements Writable {
             for (Show newShow : list) {
                 if (newShow.getName().equalsIgnoreCase(show.getName())) {
                     list.remove(show);
+                    EventLog.getInstance().logEvent(new Event("Removed " +  show.getName() + " from library"));
                     return "Show Removed Successfully!";
                 }
             }
