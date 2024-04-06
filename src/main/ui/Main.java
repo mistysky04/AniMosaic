@@ -16,5 +16,5 @@ public class Main {
         IdAndPasswords idAndPasswords = new IdAndPasswords(); // instance of ID and Passwords class in model
         new LoginPage(idAndPasswords.getLoginInfo());
     }
-
+ 
 }

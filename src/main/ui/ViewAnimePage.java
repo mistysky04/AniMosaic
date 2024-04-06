@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
-
 /*
 
     CITATIONS:
@@ -34,6 +32,10 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
     3) Understanding general structure and function of Java Swing (almost everything was learnt from this vide)
     https://www.youtube.com/watch?v=Kmgo00avvEw&t=7993s
+
+    4) How to get WindowListener to work for printing of EventLog to console
+    https://stackoverflow.com/questions/60516720/java-how-to-print-message-when-a-jframe-is-closed
+
 
 */
 
