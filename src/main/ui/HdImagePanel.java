@@ -10,15 +10,17 @@ import java.awt.*;
  */
 
 // JPanel using Graphics2D to render imported images in higher quality
-public class LoginPageBackgroundImagePanel extends JPanel {
+public class HdImagePanel extends JPanel {
 
     private Image icon;
+    private double scaleSize;
 
     // REQUIRES: icon of type Image or relevant subclasses
     // EFFECTS: Creates instance of loginpagebackgroundimagepanel with given icon
-    public LoginPageBackgroundImagePanel(Image icon) {
+    public HdImagePanel(Image icon, Double scale) {
         super();
         this.icon = icon;
+        this.scaleSize = scale;
     }
 
     // MODIFIES: this
@@ -30,7 +32,7 @@ public class LoginPageBackgroundImagePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.scale(0.40,0.40);
+        g2.scale(scaleSize,scaleSize);
         g2.drawImage(icon, 0, 0, this);
     }
 

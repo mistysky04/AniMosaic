@@ -57,7 +57,7 @@ public class LoginPage implements ActionListener {
 
     // IMAGES
     private BufferedImage sakuraBackgroundImage;
-    private LoginPageBackgroundImagePanel backgroundPanel;
+    private HdImagePanel backgroundPanel;
     private ImageIcon sakuraIcon;
 
     //MODIFIES: this
@@ -85,7 +85,7 @@ public class LoginPage implements ActionListener {
         } catch (IOException e) {
             System.out.println("error loading image");
         }
-        backgroundPanel = new LoginPageBackgroundImagePanel(sakuraBackgroundImage);
+        backgroundPanel = new HdImagePanel(sakuraBackgroundImage, 0.40);
 
         initGui();
     }
@@ -163,7 +163,7 @@ public class LoginPage implements ActionListener {
                     messageLabel.setForeground(Color.decode("#bbe784"));
                     messageLabel.setText("Login successful");
 
-                    new ViewAnimePage();
+                    new AniMosaicGUI();
 
                 } else {
                     messageLabel.setForeground(Color.decode("#c61e09"));

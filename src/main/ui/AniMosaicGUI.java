@@ -40,7 +40,7 @@ import java.util.List;
 */
 
 // GUI of main application, showing all added anime and its information
-public class ViewAnimePage extends JFrame implements ActionListener, WindowListener {
+public class AniMosaicGUI extends JFrame implements ActionListener, WindowListener {
 
     // CONSTANTS
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -114,7 +114,8 @@ public class ViewAnimePage extends JFrame implements ActionListener, WindowListe
 
     // LIBRARY ITEMS
     private String[] categories = new String[4];
-    private String[] viewShowButtons = new String[5];
+    private String[] viewShowButtons = new String[3];
+    private String[] libraryShows;
     private Library myLibrary;
     private ArrayList<Show> completedList;
     private ArrayList<Show> watchingList;
@@ -127,7 +128,7 @@ public class ViewAnimePage extends JFrame implements ActionListener, WindowListe
 
 
     // EFFECTS: Initializes all components of ViewAnimePage GUI
-    public ViewAnimePage() {
+    public AniMosaicGUI() {
         myLibrary = new Library("My Library");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
@@ -146,10 +147,8 @@ public class ViewAnimePage extends JFrame implements ActionListener, WindowListe
         categories[3] = "dropped";
 
         viewShowButtons[0] = "Edit Comments";
-        viewShowButtons[1] = "OK";
-        viewShowButtons[2] = "Transfer Show";
-        viewShowButtons[3] = "+ eps";
-        viewShowButtons[4] = "- eps";
+        viewShowButtons[1] = "Transfer Show";
+        viewShowButtons[2] = "+ eps";
 
         initFrame();
 
@@ -396,10 +395,62 @@ public class ViewAnimePage extends JFrame implements ActionListener, WindowListe
     private void viewShowAttributes(String show) {
         Show givenShow = myLibrary.findShow(show);
 
-        JOptionPane.showMessageDialog(null,
-                givenShow.toString(),
-                "Your Show", JOptionPane.INFORMATION_MESSAGE);
+        int result = JOptionPane.showOptionDialog(null, givenShow.toString(), "Show Stats",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, viewShowButtons,
+                viewShowButtons[0]);
+        // Edit comments
+        if (result == JOptionPane.YES_OPTION) {
+            addComments(givenShow);
+        // Transfer show
+        } else if (result == JOptionPane.NO_OPTION) {
+            transferShow(givenShow);
+        // Add eps
+        } else if (result == JOptionPane.CANCEL_OPTION) {
+            new EditEpNumberFrame(givenShow);
+        } else {
+            return;
+        }
 
+    }
+
+    public void addComments(Show show) {
+        String[] addOrDeleteComments = new String[2];
+        addOrDeleteComments[0] = "Add Comment";
+        addOrDeleteComments[1] = "Delete Comment";
+
+        int result = JOptionPane.showOptionDialog(null, "What would you like to do? :",
+                "Comment Selection", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, addOrDeleteComments,
+                addOrDeleteComments[0]);
+        // Add comment
+        if (result == JOptionPane.YES_OPTION) {
+            String comments = JOptionPane.showInputDialog("Share your thoughts on " + show.getName() + ":");
+            show.addComments(comments);
+
+        // Delete comment
+        } else {
+            show.deleteComments();
+            JOptionPane.showMessageDialog(null, "Comments successfully deleted!",
+                    "Deletion Successful", JOptionPane.INFORMATION_MESSAGE);
+        }
+        viewShowAttributes(show.getName());
+    }
+
+    public void transferShow(Show show) {
+        String category = JOptionPane.showInputDialog(null, show.getName() + " is currently in "
+                        + myLibrary.findCategoryName(show) + ". Where would you like to transfer it?",
+                "Category Transfer", JOptionPane.QUESTION_MESSAGE, null,
+                categories,"Regular").toString();
+
+        myLibrary.removeFromList(show);
+
+        for (JButton button : showButtons) {
+            if (button.getText() == show.getName()) {
+                allShows.remove(button);
+            }
+        }
+        myLibrary.addToList(show, category);
+        displayShow(show);
     }
 
     // MODIFIES: this
@@ -453,6 +504,8 @@ public class ViewAnimePage extends JFrame implements ActionListener, WindowListe
             newShow.setBackground(Color.decode("#93bdff"));
         }
 
+        addShowToShowsDropdown();
+
         allShows.add(newShow);
         allShows.setVisible(false);
         allShows.setVisible(true);
@@ -504,21 +557,23 @@ public class ViewAnimePage extends JFrame implements ActionListener, WindowListe
         return currentEp;
     }
 
+    public void addShowToShowsDropdown() {
+        libraryShows = new String[getTotalShowList().size()];
+
+        for (int i = 0; i < getTotalShowList().size(); i++) {
+            libraryShows[i] = getTotalShowList().get(i);
+        }
+    }
+
     // MODIFIES: this
-    // EFFECTS: deletes a show from the library & removes its corresponding button both from showButtons and the GUI
+    // EFFECTS: deletes a show from the library & removes its corresponding button both from showButtons, the GUI
+    // and the removeShow dropdown menu
     public void deleteShow() {
-        String showName = JOptionPane.showInputDialog("Please select from the following shows to remove from your "
-                + "library: " + getTotalShowList());
+        String showName = JOptionPane.showInputDialog(null, "Please select from the following "
+                + "shows to remove from your library: ", "Remove Show", JOptionPane.QUESTION_MESSAGE, null,
+                libraryShows, "Regular").toString();
 
         Show show = myLibrary.findShow(showName);
-
-        while (show == null) {
-            JOptionPane.showMessageDialog(null,"Show does not exist in library",
-                    "Show Nonexistent", JOptionPane.INFORMATION_MESSAGE);
-            showName = JOptionPane.showInputDialog("Please select from the following shows to remove from your "
-                    + "library: " + getTotalShowList());
-            show = myLibrary.findShow(showName);
-        }
 
         showButtons.remove(show);
 
@@ -533,6 +588,9 @@ public class ViewAnimePage extends JFrame implements ActionListener, WindowListe
 
         JOptionPane.showMessageDialog(null, myLibrary.removeFromList(show), "Removed",
                 JOptionPane.INFORMATION_MESSAGE);
+
+        // Update dropdown to exclude removed show
+        addShowToShowsDropdown();
 
     }
 

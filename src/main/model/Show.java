@@ -84,7 +84,7 @@ public class Show implements Writable {
     }
 
     public void setCurrentEp(int num) {
-        currentEp += num;
+        currentEp = num;
     }
 
     @Override

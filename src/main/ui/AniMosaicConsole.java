@@ -3,8 +3,6 @@ package ui;
 import model.Show;
 import model.Library;
 
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +16,7 @@ import java.io.IOException;
 // CITATION: CPSC 210 Teller App
 // CITATION: CPSC 210 Serialization Demo https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 // AniMosaic app
-public class AniMosaic {
+public class AniMosaicConsole {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private static final String JSON_STORE = "./data/library.json";
@@ -28,7 +26,7 @@ public class AniMosaic {
     String categories = ("\ncompleted \nwatching \nplanned \ndropped \n");
 
     // EFFECTS: runs the AniMosaic application
-    public AniMosaic() throws FileNotFoundException {
+    public AniMosaicConsole() throws FileNotFoundException {
 
         input = new Scanner(System.in);
         myLibrary = new Library("My Library");
@@ -264,7 +262,10 @@ public class AniMosaic {
             num = input.nextInt();
         }
 
-        show.setCurrentEp(num);
+        int currentEps = show.getCurrentEp();
+        int newNum = currentEps + num;
+
+        show.setCurrentEp(newNum);
         System.out.println("Show episodes have been updated!\n");
         System.out.println(show.toString());
     }
