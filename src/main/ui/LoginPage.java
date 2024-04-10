@@ -100,6 +100,7 @@ public class LoginPage implements ActionListener {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
 
         initComponents();
         addToFrame();
