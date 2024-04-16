@@ -2,6 +2,8 @@
 
 ## The future of anime tracking apps~
 
+Watch the demo video: https://www.youtube.com/watch?v=MxOZFMSuHDs
+
 Imagine: A place to rate, track, and comment on your entire anime watching repertoire in one place!
 **AniMosaic** is an application that allows users to add anime they've previously seen, are currently watching, or are 
 planning to see in the future, in order to track the *mosaic* of shows they indulge in. The app will include
